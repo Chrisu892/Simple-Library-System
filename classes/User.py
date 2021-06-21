@@ -24,6 +24,8 @@ class User(Entity):
 
     except:
       print("\nFailed to create new user!\n")
+      return False
 
     finally:
       print(f"\nUser '{self.get('fname')}' has been created!\n")
+      return True

@@ -8,7 +8,7 @@ class Loans:
 
 
   # Method to lend a book to the borrower
-  def lend_book(self, user_id:int, book_id:int) -> bool:
+  def lend_book(self, user_list, book_list) -> bool:
     print("INSERT INTO loans (user_id, book_id) VALUES (user_id, book_id)")
     pass
 

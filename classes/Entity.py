@@ -8,7 +8,7 @@ class Entity:
 
   def __init__(self) -> None:
     """Entity class constructor."""
-    self.__id = self.__set_random_id()
+    self.id = self.__random_id()
 
 
   def set(self, prop, value):
@@ -27,6 +27,6 @@ class Entity:
       print(f"Error occurred, can't find {prop} in the class.")
 
 
-  def __set_random_id(self) -> str:
+  def __random_id(self) -> str:
     """Private method to generate and return the ID of the entity. For example: 123-456-768"""
     return str(randint(100, 1000)) + "-" + str(randint(100, 1000)) + "-" + str(randint(100, 1000))

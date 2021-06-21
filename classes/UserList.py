@@ -9,23 +9,26 @@ class UserList(EntityList):
 
   # Class constructor
   def __init__(self) -> None:
-    # Instantiate super class
+    """UserList class constructor."""
     EntityList.__init__(self)
 
 
-  def add(self) -> bool:
-    try:
-      user = User()
-      user.create()
+  def add_user(self):
+    """Public method to add a new user to the Library system."""
+
+    # Create new instance of the User
+    user = User()
+
+    # Create new user
+    if user.create():
       self.entities.append(user)
-      return True
-
-    except:
-      print("\nSomething went wrong, please try again.\n")
-      return False
 
 
-  # Method to show all users from the list of users
-  def show(self) -> list:
-    # SHOW * FROM self.entities
-    return self.entities
+  def remove_user(self):
+    """Public method to remove a user from the Library system."""
+    pass
+
+
+  def find_user(self):
+    """Public method to find user of the Library."""
+    pass

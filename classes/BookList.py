@@ -14,27 +14,22 @@ class BookList(EntityList):
 
 
   # Method to add a book to the collection
-  def add_book(self) -> bool:
-    try:
-      # Create new instance of Book class
-      book = Book()
-      # Append book to the list of books (entities)
-      self.entities.append(book)
-      # Print the message back to user
-      print(f"\nBook {book.get('title')} has been added!\n")
-      # Return bool
-      return True
+  def add_book(self):
+    """Public method to add a new book to the collection."""
 
-    except:
-      # Notify the user about a problem
-      print("\nSomething went wrong, please try again.\n")
-      # Return bool
-      return False
+    # Create new instance of the Book
+    book = Book()
+
+    # Create new book
+    if book.create():
+      self.entities.append(book)
 
 
   # Method to remove the book from the list of books
   # @todo: if there are 2 or more books with the same title, prompt the user to select correct book
   def remove_book(self) -> bool:
+    """Public method to remove a book from the collection."""
+
     try:
       # Prompt the user to enter the title of the book to remove
       title = str(input("Book title to remove: "))
@@ -62,9 +57,8 @@ class BookList(EntityList):
       return False
 
 
-  # Method to search through the list of books and find those
-  # that match one of the selected criteria
   def find_book(self) -> None:
+    """Public method to find a book in the collection."""
 
     # Define empty list to store all books that match the search_by criteria
     found_books = []
@@ -90,8 +84,8 @@ class BookList(EntityList):
         elif search_by == "publication_date" and book.get("publication_date") == keyword:
           found_books.append(book)
 
-      # Print the results back to the user
       if len(found_books) > 0:
+        # Print the results back to the user
         print(f"\nYour search for '{keyword}' in book {search_by} returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
         for book in found_books:
           print(f"Title: {book.get('title')}")
@@ -101,11 +95,11 @@ class BookList(EntityList):
           print(f"Publication date: {book.get('publication_date')}")
           print(f"Number of copies: {book.get('num_copies')}\n")
 
-      # Otherwise, show the message that search returned 0 results
       else:
+        # Otherwise, show the message that search returned 0 results
         print(f"\nYour search for '{keyword}' in book {search_by} returned 0 results.\n")
 
 
-  # Method to print the message stating how many books is in the collection
   def num_books(self):
+    """Public method to show the number of books in the collection."""
     print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.\n")

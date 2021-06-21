@@ -11,9 +11,11 @@ class Library:
 
   def __init__(self):
     """Library class constructor."""
+
     self.book_list = BookList()
     self.user_list = UserList()
     self.loans = Loans()
+
     self.start()
 
 
@@ -49,6 +51,7 @@ class Library:
 
   def manage_collections(self):
     """Public method show the Library book collection management menu."""
+
     menu = {
       1: self.book_list.add_book,
       2: self.book_list.remove_book,
@@ -72,7 +75,7 @@ class Library:
 
         selection = int(input(f"Please select [1,2,3,4,5]: "))
 
-        if selection not in range(1, len(menu) + 1):
+        if selection not in range(1,6):
           raise ValueError
         else:
           menu[selection]()
@@ -81,8 +84,22 @@ class Library:
         print("Selection out of range, please try again.")
 
 
+  def manage_users(self):
+    """Public method to show the Library users management menu."""
+
+    menu = {
+      1: self.user_list.add_user,
+      2: self.user_list.remove_user,
+      3: self.find_user,
+      4: self.show_users,
+      5: self.start
+    }
+
+
+
   def manage_loans(self):
-    """Method to show the Library loans management menu."""
+    """Public method to show the Library loans management menu."""
+
     menu = {
       1: self.loans.lend_book,
       2: self.loans.return_book,
@@ -111,7 +128,7 @@ class Library:
         if selection not in range(1,7):
           raise ValueError
         else:
-          menu[selection]()
+          menu[selection](self.user_list.find_id_by("username"), self.book_list.find_id_by("title"))
 
       except ValueError:
         print("Selection out of range, please try again.")

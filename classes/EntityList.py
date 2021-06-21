@@ -6,21 +6,28 @@ class EntityList:
     self.entities = list()
 
 
-  # # Add entity to the list of entities
-  # def add(self, entity:object) -> bool:
-  #   print("Add Entity to the Entity List")
-  #   return self.entities.append(entity)
+  def find_id_by(self, prop) -> str:
+    while True:
+      try:
+        keyword = str(input(f"Find entity ID by {prop}: "))
 
-  
-  # # Remove entity from the list of entities
-  # def remove(self, string:str) -> bool:
-  #   print("Remove entity from entities where entity[key] == value")
-  #   # Search self.entities and remove specified entity
-  #   # For example:
-  #   # DELETE entity FROM self.entities WHERE entitity[key] == value
-  #   pass
+        for entity in self.entities:
+          if entity.get(prop) == keyword:
+            print(f"Found '{prop}' ID: {entity.get('id')}")
+            return entity.get("id")
+
+        print(f"Entity with property '{prop}' does not exist.")
+
+      except ValueError:
+        print(f"Could not find entity ID, '{prop}' is not defined.")
 
 
-  # Count number of entities in the list
+
   def count(self) -> int:
+    """Return the number of entities."""
     return len(self.entities)
+
+
+  def show_all(self) -> list:
+    """Return the list of entities."""
+    return self.entities
