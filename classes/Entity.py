@@ -6,21 +6,27 @@ from random import randint
 class Entity:
 
 
-  # Class constructor
   def __init__(self) -> None:
+    """Entity class constructor."""
     self.__id = self.__set_random_id()
 
 
-  # Public method to return the entity ID
-  def get_id(self):
+  def set(self, prop, value):
+    """Public method to set the property of the class."""
     try:
-      return self.__id
-    except KeyError:
-      print("Book ID is undefined.")
-      return False
+      setattr(self, prop, value)
+    except:
+      print(f"Error occurred, can't add {prop} to the class.")
 
 
-  # Private method to create random ID
+  def get(self, prop):
+    """Public method to get the property of the class."""
+    try:
+      return getattr(self, prop)
+    except:
+      print(f"Error occurred, can't find {prop} in the class.")
+
+
   def __set_random_id(self) -> str:
-    # Return, for example: 123-456-789
+    """Private method to generate and return the ID of the entity. For example: 123-456-768"""
     return str(randint(100, 1000)) + "-" + str(randint(100, 1000)) + "-" + str(randint(100, 1000))

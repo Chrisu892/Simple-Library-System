@@ -21,7 +21,7 @@ class BookList(EntityList):
       # Append book to the list of books (entities)
       self.entities.append(book)
       # Print the message back to user
-      print(f"\nBook {book.get_title()} has been added!\n")
+      print(f"\nBook {book.get('title')} has been added!\n")
       # Return bool
       return True
 
@@ -81,25 +81,25 @@ class BookList(EntityList):
       # Iterate through the list of books and append book that matches
       # search criteria to the list of found books
       for book in self.entities:
-        if search_by == "title" and book.get_title() == keyword:
+        if search_by == "title" and book.get("title") == keyword:
           found_books.append(book)
-        elif search_by == "author" and book.get_author() == keyword:
+        elif search_by == "author" and book.get("author") == keyword:
           found_books.append(book)
-        elif search_by == "publisher_name" and book.get_publisher_name() == keyword:
+        elif search_by == "publisher_name" and book.get("publisher_name") == keyword:
           found_books.append(book)
-        elif search_by == "publication_date" and book.get_publication_date() == keyword:
+        elif search_by == "publication_date" and book.get("publication_date") == keyword:
           found_books.append(book)
 
       # Print the results back to the user
       if len(found_books) > 0:
         print(f"\nYour search for '{keyword}' in book {search_by} returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
         for book in found_books:
-          print(f"Title: {book.get_title()}")
-          print(f"Author: {book.get_author()}")
-          print(f"Year: {book.get_year()}")
-          print(f"Publisher name: {book.get_publisher_name()}")
-          print(f"Publication date: {book.get_publication_date()}")
-          print(f"Number of copies: {book.get_num_copies()}\n")
+          print(f"Title: {book.get('title')}")
+          print(f"Author: {book.get('author')}")
+          print(f"Year: {book.get('year')}")
+          print(f"Publisher name: {book.get('publisher_name')}")
+          print(f"Publication date: {book.get('publication_date')}")
+          print(f"Number of copies: {book.get('num_copies')}\n")
 
       # Otherwise, show the message that search returned 0 results
       else:

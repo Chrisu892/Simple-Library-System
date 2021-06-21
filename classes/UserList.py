@@ -13,11 +13,11 @@ class UserList(EntityList):
     EntityList.__init__(self)
 
 
-  def create_user(self) -> bool:
+  def add(self) -> bool:
     try:
       user = User()
+      user.create()
       self.entities.append(user)
-      print(f"\nUser {user.get_first_name()} has been added!\n")
       return True
 
     except:
