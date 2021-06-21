@@ -92,14 +92,14 @@ class BookList(EntityList):
 
       # Print the results back to the user
       if len(found_books) > 0:
-        print(f"\nYour search for '{keyword}' in book {search_by} returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:")
+        print(f"\nYour search for '{keyword}' in book {search_by} returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
         for book in found_books:
-          print(f"\nTitle: {book.get_title()}")
+          print(f"Title: {book.get_title()}")
           print(f"Author: {book.get_author()}")
           print(f"Year: {book.get_year()}")
           print(f"Publisher name: {book.get_publisher_name()}")
           print(f"Publication date: {book.get_publication_date()}")
-          print(f"Number of copies: {book.get_num_copies()}")
+          print(f"Number of copies: {book.get_num_copies()}\n")
 
       # Otherwise, show the message that search returned 0 results
       else:

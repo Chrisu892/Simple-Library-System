@@ -1,30 +1,22 @@
 # Import required modules
-from random import randint
-from typing import AnyStr
+from .Entity import Entity
 
 
 # Define Book class
-class Book:
+class Book(Entity):
 
 
   # Class constructor
   def __init__(self) -> None:
-    self.__id = self.__set_random_id()
+    # Instantiate super class
+    Entity.__init__(self)
+    # Set book details
     self.__title = str(input("Book title: "))
     self.__author = str(input("Author name: "))
     self.__year = int(input("Book year: "))
     self.__publisher_name = str(input("Publisher name: "))
     self.__publication_date = str(input("Publication date: "))
     self.__num_copies = int(input("Number of copies: "))
-
-
-  # Method to return the book ID
-  def get_id(self):
-    try:
-      return self.__id
-    except KeyError:
-      print("Book ID is undefined.")
-      return False
 
 
   # Method to return the book title
@@ -88,9 +80,3 @@ class Book:
     except:
       print("Book publication date is undefined.")
       return False
-
-
-  # Method to create random ID
-  def __set_random_id(self) -> str:
-    # Return, for example: 123-456-789
-    return str(randint(100, 1000)) + "-" + str(randint(100, 1000)) + "-" + str(randint(100, 1000))
