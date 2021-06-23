@@ -27,7 +27,7 @@ class BookList(EntityList):
 
   # Method to remove the book from the list of books
   # @todo: if there are 2 or more books with the same title, prompt the user to select correct book
-  def remove_book(self) -> bool:
+  def remove_book(self) -> None:
     """Public method to remove a book from the collection."""
 
     try:
@@ -37,24 +37,20 @@ class BookList(EntityList):
       # Iterate through the list of books
       for idx, book in enumerate(self.entities):
         # Find a matching book title
-        if book.get_title() == title:
+        if book.get('title').lower() == title.lower():
           # Delete matching book from the list
           del self.entities[idx]
           # Notify the user about the change
-          print(f"\nBook {title} has been removed.\n")
+          print(f"\nBook {title} has been removed.")
           # Return truthy bool
           return True
 
       # Notify the user that book has not been found
-      print(f"\nBook {title} does not exist.\n")
-      # Return falsy bool
-      return False
+      print(f"\nBook {title} does not exist.")
 
     except ValueError:
       # Notify user that something went wrong
-      print("Invalid book title, please try again.")
-      # Return falsy bool
-      return False
+      print("\nInvalid book title, please try again.")
 
 
   def find_book(self) -> None:
@@ -75,18 +71,18 @@ class BookList(EntityList):
       # Iterate through the list of books and append book that matches
       # search criteria to the list of found books
       for book in self.entities:
-        if search_by == "title" and book.get("title") == keyword:
+        if search_by == "title" and book.get("title").lower() == keyword.lower():
           found_books.append(book)
-        elif search_by == "author" and book.get("author") == keyword:
+        elif search_by == "author" and book.get("author").lower() == keyword.lower():
           found_books.append(book)
-        elif search_by == "publisher_name" and book.get("publisher_name") == keyword:
+        elif search_by == "publisher_name" and book.get("publisher_name").lower() == keyword.lower():
           found_books.append(book)
-        elif search_by == "publication_date" and book.get("publication_date") == keyword:
+        elif search_by == "publication_date" and book.get("publication_date").lower() == keyword.lower():
           found_books.append(book)
 
       if len(found_books) > 0:
         # Print the results back to the user
-        print(f"\nYour search for '{keyword}' in book {search_by} returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
+        print(f"\nYour search for '{keyword}' returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
         for book in found_books:
           print(f"Title: {book.get('title')}")
           print(f"Author: {book.get('author')}")

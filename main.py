@@ -21,6 +21,7 @@ class Library:
 
   def start(self):
     """Public method to show the main program menu."""
+
     menu = {
       1: self.manage_books,
       2: self.manage_users,
@@ -28,18 +29,17 @@ class Library:
       4: self.quit
     }
 
-    print()
-    print("WELCOME TO THE LIBRARY SYSTEM")
+    print("\nWELCOME TO THE LIBRARY SYSTEM")
 
     while True:
       try:
-        print("What would you like to do?")
+        print("\nWhat would you like to do?")
         print("1. Manage Books")
         print("2. Manage Users")
         print("3. Manage Loans")
         print("4. Exit Program\n")
 
-        selection = int(input(f"Please select [1,2,3]: "))
+        selection = int(input(f"Please select [1,2,3,4]: "))
 
         if selection not in range(1,5):
           raise ValueError
@@ -122,35 +122,33 @@ class Library:
     menu = {
       1: self.loans.lend_book,
       2: self.loans.return_book,
-      3: self.loans.show_borrowed_books,
-      4: self.loans.return_overdue_books,
-      5: self.loans.show_borrower_details,
-      6: self.start
+      3: self.loans.show_all_loans,
+      4: self.loans.show_borrower_details,
+      5: self.start
     }
 
     print("\nMANAGE BOOK LOANS")
 
     while True:
       try:
-        print("What would you like to do?")
+        print("\nWhat would you like to do?")
         # Lend a book to the borrower
         print("1. Lend a book")
         # Return a book to the library
         print("2. Return a book")
         # Show count of the total number of books a user is currently borrowing
-        print("3. Show all books on loan")
+        print("3. Show user's loans")
         # Show all the overdue books along with the users’ username and firstname
-        print("4. Show user's overdue books")
+        print("4. Show all loans")
         # Show the firstname, surname and email address name of a borrower of a given book
-        print("5. Show user details")
+        print("5. Show borrower details")
         # Go back to the main menu
         print("6. Go back\n")
-        print()
 
         # Prompt the user to select 1 of the 6 options
-        selection = int(input(f"Please select [1,2,3,4,5,6]: "))
+        selection = int(input(f"Please select [1,2,3,4,5]: "))
 
-        if selection not in range(1,7):
+        if selection not in range(1,6):
           raise ValueError
 
         else:
@@ -171,11 +169,8 @@ class Library:
             menu[selection]()
 
 
-      except ValueError:
-        print("Selection out of range, please try again.")
-
-      except TypeError:
-        print("Missing user_id and book_id!")
+      except:
+        print("\nSelection out of range, please try again.")
 
 
   def quit(self):

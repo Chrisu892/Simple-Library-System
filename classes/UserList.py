@@ -43,6 +43,11 @@ class UserList(EntityList):
     while True:
       try:
         username = str(input("Please type username to find: "))
+
+        if username == 'q':
+          print("\nOperation has been cancelled!")
+          break
+
         user = self.show("username", username)
 
         if user:

@@ -64,7 +64,7 @@ class EntityList:
     # Iterate through list of entities
     for entity in self.entities:
       # Check if entity's property value is equal to specified value
-      if entity.get(prop) == value:
+      if entity.get(prop) == value.lower():
         # Return the entity object back to the caller
         return entity
 

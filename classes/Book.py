@@ -23,9 +23,9 @@ class Book(Entity):
       self.set("num_copies", self.prompt("Number of copies"))
 
     except:
-      print("\nFailed to create a new book!\n")
+      print("\nFailed to create a new book!")
       return False
 
     finally:
-      print(f"\nBook {self.get('title')} has been created!\n")
+      print(f"\nBook {self.get('title')} has been created!")
       return True
