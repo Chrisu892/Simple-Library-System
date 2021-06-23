@@ -27,6 +27,15 @@ class Entity:
       print(f"Error occurred, can't find {prop} in the class.")
 
 
+  def prompt(self, label, input_type = "str"):
+    """Method to prompt the user to type some data into the program."""
+
+    if input_type == "int":
+      return int(input(f"{label}: "))
+    else:
+      return str(input(f"{label}: "))
+
+
   def __random_id(self) -> str:
     """Private method to generate and return the ID of the entity. For example: 123-456-768"""
     return str(randint(100, 1000)) + "-" + str(randint(100, 1000)) + "-" + str(randint(100, 1000))

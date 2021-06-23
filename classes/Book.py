@@ -15,12 +15,12 @@ class Book(Entity):
     """Public method to create a new book."""
 
     try:
-      self.set("title", str(input("Book title: ")))
-      self.set("author", str(input("Author name: ")))
-      self.set("year", int(input("Book year: ")))
-      self.set("publisher_name", str(input("Publisher name: ")))
-      self.set("publication_date", str(input("Publication date: ")))
-      self.set("num_copies", int(input("Number of copies: ")))
+      self.set("title", self.prompt("Book title"))
+      self.set("author", self.prompt("Author name"))
+      self.set("year", self.prompt("Book year", "int"))
+      self.set("publisher_name", self.prompt("Publisher name"))
+      self.set("publication_date", self.prompt("Publication date"))
+      self.set("num_copies", self.prompt("Number of copies"))
 
     except:
       print("\nFailed to create a new book!\n")

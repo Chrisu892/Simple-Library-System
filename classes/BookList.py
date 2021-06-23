@@ -93,13 +93,13 @@ class BookList(EntityList):
           print(f"Year: {book.get('year')}")
           print(f"Publisher name: {book.get('publisher_name')}")
           print(f"Publication date: {book.get('publication_date')}")
-          print(f"Number of copies: {book.get('num_copies')}\n")
+          print(f"Number of copies: {book.get('num_copies')}")
 
       else:
         # Otherwise, show the message that search returned 0 results
-        print(f"\nYour search for '{keyword}' in book {search_by} returned 0 results.\n")
+        print(f"\nYour search for '{keyword}' in book {search_by} returned 0 results.")
 
 
   def num_books(self):
     """Public method to show the number of books in the collection."""
-    print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.\n")
+    print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.")

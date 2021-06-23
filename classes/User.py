@@ -14,8 +14,9 @@ class User(Entity):
   def create(self) -> bool:
     """Method to create a new user."""
     try:
-      self.set("fname", str(input("First name: ")))
-      self.set("lname", str(input("Last name: ")))
+      self.set("username", str(input("Username: ")))
+      self.set("first_name", str(input("First name: ")))
+      self.set("last_name", str(input("Last name: ")))
       self.set("dob", str(input("Date of birth: ")))
       self.set("house_no", str(input("House/Flat number: ")))
       self.set("street_name", str(input("Street name: ")))
@@ -27,5 +28,5 @@ class User(Entity):
       return False
 
     finally:
-      print(f"\nUser '{self.get('fname')}' has been created!\n")
+      print(f"\nUser '{self.get('first_name')} {self.get('last_name')}' has been created!")
       return True

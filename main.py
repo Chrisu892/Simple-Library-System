@@ -22,9 +22,10 @@ class Library:
   def start(self):
     """Public method to show the main program menu."""
     menu = {
-      1: self.manage_collections,
-      2: self.manage_loans,
-      3: self.quit
+      1: self.manage_books,
+      2: self.manage_users,
+      3: self.manage_loans,
+      4: self.quit
     }
 
     print()
@@ -34,13 +35,13 @@ class Library:
       try:
         print("What would you like to do?")
         print("1. Manage Books")
-        print("2. Manage Loans")
-        print("3. Exit Program")
-        print() 
+        print("2. Manage Users")
+        print("3. Manage Loans")
+        print("4. Exit Program\n")
 
         selection = int(input(f"Please select [1,2,3]: "))
 
-        if selection not in range(1,4):
+        if selection not in range(1,5):
           raise ValueError
         else:
           menu[selection]()
@@ -49,7 +50,7 @@ class Library:
         print("\nSelection out of range, please try again.\n")
 
 
-  def manage_collections(self):
+  def manage_books(self):
     """Public method show the Library book collection management menu."""
 
     menu = {
@@ -60,18 +61,16 @@ class Library:
       5: self.start,
     }
 
-    print()
-    print("MANAGE BOOKS")
+    print("\nMANAGE BOOKS")
 
     while True:
       try:
-        print("What would you like to do?")
+        print("\nWhat would you like to do?")
         print("1. Add a book")
         print("2. Remove a book")
         print("3. Find a book")
         print("4. Number of books")
-        print("5. Go back")
-        print()
+        print("5. Go back\n")
 
         selection = int(input(f"Please select [1,2,3,4,5]: "))
 
@@ -90,11 +89,31 @@ class Library:
     menu = {
       1: self.user_list.add_user,
       2: self.user_list.remove_user,
-      3: self.find_user,
-      4: self.show_users,
+      3: self.user_list.find_user,
+      4: self.user_list.show_users,
       5: self.start
     }
 
+    print("\nMANAGE USERS")
+
+    while True:
+      try:
+        print("\nWhat would you like to do?")
+        print("1. Add a user")
+        print("2. Remove a user")
+        print("3. Find a user")
+        print("4. Show all users")
+        print("5. Go back\n")
+
+        selection = int(input("Please select [1,2,3,4,5]: "))
+
+        if selection not in range(1,6):
+          raise ValueError
+        else:
+          menu[selection]()
+
+      except ValueError:
+        print("Selection out of range, please try again.")
 
 
   def manage_loans(self):
@@ -109,26 +128,48 @@ class Library:
       6: self.start
     }
 
-    print()
-    print("MANAGE BOOK LOANS")
+    print("\nMANAGE BOOK LOANS")
 
     while True:
       try:
         print("What would you like to do?")
+        # Lend a book to the borrower
         print("1. Lend a book")
+        # Return a book to the library
         print("2. Return a book")
+        # Show count of the total number of books a user is currently borrowing
         print("3. Show all books on loan")
-        print("4. Return user's overdue books")
+        # Show all the overdue books along with the users’ username and firstname
+        print("4. Show user's overdue books")
+        # Show the firstname, surname and email address name of a borrower of a given book
         print("5. Show user details")
-        print("6. Go back")
+        # Go back to the main menu
+        print("6. Go back\n")
         print()
 
+        # Prompt the user to select 1 of the 6 options
         selection = int(input(f"Please select [1,2,3,4,5,6]: "))
 
         if selection not in range(1,7):
           raise ValueError
+
         else:
-          menu[selection](self.user_list.find_id_by("username"), self.book_list.find_id_by("title"))
+          if selection in [1,2]:
+            # If lending or returning books
+            menu[selection](self.user_list, self.book_list)
+
+          elif selection in [3,4]:
+            # If showing user's loans and overdue books
+            menu[selection](self.user_list)
+
+          elif selection in [5]:
+            # If showing book's borrower details
+            menu[selection](self.book_list)
+
+          else:
+            # If going back to the main menu
+            menu[selection]()
+
 
       except ValueError:
         print("Selection out of range, please try again.")

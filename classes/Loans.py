@@ -2,41 +2,122 @@
 class Loans:
 
 
-  # Define class constructor
   def __init__(self):
-    self.__loans = list()
+    """Loans class constructor."""
+    self.loans = list()
 
 
-  # Method to lend a book to the borrower
-  def lend_book(self, user_list, book_list) -> bool:
-    print("INSERT INTO loans (user_id, book_id) VALUES (user_id, book_id)")
-    pass
+  def lend_book(self, user_list:object, book_list:object) -> bool:
+    """Method to lend a book to the user."""
+
+    try:
+      user = user_list.find("username")
+      book = book_list.find("title")
+
+      self.loans.append({'user': user, 'book': book})
+      print(f"\nBook {book.get('title')} has been lended to user {user.get('first_name')} {user.get('last_name')}.\n")
+      return True
+
+    except:
+      print(f"\nFailed to lend a book!\n")
+      return False
+
+    finally:
+      print("\nCouldn't find user or book!\n")
+      return False
 
 
-  # Method to return a book
-  def return_book(self, user_id:int, book_id:int) -> bool:
-    print("DELETE loan FROM loans WHERE loan[user_id] = user_id AND loan[book_id] = book_id")
-    pass
+  def return_book(self, user_list:object, book_list:object) -> bool:
+    """Method to return a book back to the Library."""
 
-  
-  # Method to show the list of borrowed books
-  def show_borrowed_books(self, user_id:int) -> list:
-    print("SELECT books FROM loans WHERE loan[user_id] = user_id")
-    pass
+    try:
+      user = user_list.find("username")
+      book = user_list.find("title")
+
+      if user and book:
+        for idx, loan in enumerate(self.loans):
+          if loan['user'].get('id') == user.get('id') and loan['book'].get('id') == book.get('id'):
+            del self.loans[idx]
+            print(f"Book {book.get('title')} has been returned to the Library by {user.get('first_name')} {user.get('last_name')}")
+            return True
+
+    except:
+      print(f"\nFailed to return a book to the Library!\n")
+      return False
+
+    finally:
+      print(f"\nCoudn't find the book on loan.\n")
+      return False
 
 
-  # Method to return all loaned books back to the library
-  def return_overdue_books(self, user_id:int) -> bool:
-    print("DELETE loan FROM loans WHERE loan[user_id] = user_id")
-    pass
+  def show_borrowed_books(self, user_list:object) -> None:
+    "Method to show all borrowed books by the user."
+
+    try:
+      user_loans = list()
+      user = user_list.find("username")
+
+      if user:
+        for loan in self.loans:
+          if loan['user'].get('id') == user.get('id'):
+            user_loans.append(loan)
+
+    except:
+      print(f"Failed to retrieve {user.get('first_name')} {user.get('last_name')}'s books.")
+      return False
+
+    finally:
+      if len(user_loans) > 0:
+        print(f"\n{user.get('first_name')} {user.get('last_name')} has {len(user_loans)} active loans:\n")
+        for loan in user_loans:
+          print(f"{loan['book'].get('title')}")
+        print()
 
 
-  # Show the list of people who have a loan in the library
-  def show_borrower_details(self, book_id:int) -> list:
-    print("SELECT user.* FROM loans WHERE loan[book_id] = book_id")
-    pass
+  def return_overdue_books(self, user_list:object) -> bool:
+    """Method to return all loaned books by the user back to the Library."""
+
+    try:
+      user = user_list.find("username")
+
+      if user:
+        for idx, loan in enumerate(self.loans):
+          if loan['user'].get('id') == user.get('id'):
+            print(f"Book {loan['book'].get('title')} has been returned by {user.get('first_name')}.")
+            del self.loans[idx]
+
+    except:
+      print("\nFailed to returned books!\n")
+      return False
+
+    finally:
+      print(f"\nAll books have been returned by {user.get('first_name')}!\n")
+      return True
+
+
+  def show_borrower_details(self, user_list:object) -> None:
+    """Show book borrowed details."""
+
+    try:
+      user_loans = list()
+      user = user_list.find("username")
+
+      if user:
+        for loan in self.loans:
+          if loan['user'].get('id') == user.get('id'):
+            user_loans.append(loan)
+
+    except:
+      print("\nCouldn't find the borrower!\n")
+
+    finally:
+      if len(user_loans) > 0:
+        print(f"\n{user.get('first_name')} {user.get('last_name')} has {len(user_loans)} active loans:\n")
+        for loan in user_loans:
+          print(f"{loan['book'].get('title')}")
+        print()
 
 
   # Show the total count of all loans - Added by the author
   def count(self) -> int:
-    return len(self.__loans)
+    return len(self.loans)
