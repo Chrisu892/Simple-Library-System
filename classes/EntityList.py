@@ -13,7 +13,7 @@ class EntityList:
     while True:
       try:
         # Prompt the user to enter a keyword
-        keyword = str(input(f"Find {label if label != None else ''} {prop} by {value}: "))
+        keyword = str(input(f"Find {label if label != None else ''} {prop}: "))
 
         # Check if user forced to cancel the search operation
         if keyword == 'q':
@@ -23,7 +23,7 @@ class EntityList:
         # Loop through each entity in the list of entities
         for entity in self.entities:
           # Check if the value of the property inside entity object is equal to user keyword
-          if entity.get(prop) == keyword:
+          if entity.get(prop).lower() == keyword.lower():
             # Print notification
             print(f"Found '{prop}' ID: {entity.get(value)}")
             # Return the entity
@@ -45,7 +45,7 @@ class EntityList:
     # Iterate through list of entities
     for idx, entity in enumerate(self.entities):
       # Check if entity's property value is equal to specified value
-      if entity.get(prop) == value:
+      if entity.get(prop).lower() == value.lower():
         # Delete entity from the list of entities
         del self.entities[idx]
         # Notify the user about successful operation
@@ -64,7 +64,7 @@ class EntityList:
     # Iterate through list of entities
     for entity in self.entities:
       # Check if entity's property value is equal to specified value
-      if entity.get(prop) == value.lower():
+      if entity.get(prop).lower() == value.lower():
         # Return the entity object back to the caller
         return entity
 

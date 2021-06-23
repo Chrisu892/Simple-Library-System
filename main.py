@@ -132,20 +132,13 @@ class Library:
     while True:
       try:
         print("\nWhat would you like to do?")
-        # Lend a book to the borrower
         print("1. Lend a book")
-        # Return a book to the library
         print("2. Return a book")
-        # Show count of the total number of books a user is currently borrowing
-        print("3. Show user's loans")
-        # Show all the overdue books along with the users’ username and firstname
-        print("4. Show all loans")
-        # Show the firstname, surname and email address name of a borrower of a given book
-        print("5. Show borrower details")
-        # Go back to the main menu
-        print("6. Go back\n")
+        print("3. Show all loans")
+        print("4. Show borrower details")
+        print("5. Go back\n")
 
-        # Prompt the user to select 1 of the 6 options
+        # Prompt the user to select 1 of the 5 options
         selection = int(input(f"Please select [1,2,3,4,5]: "))
 
         if selection not in range(1,6):
@@ -156,18 +149,15 @@ class Library:
             # If lending or returning books
             menu[selection](self.user_list, self.book_list)
 
-          elif selection in [3,4]:
-            # If showing user's loans and overdue books
+          elif selection in [4]:
+            # If showing borrower details
             menu[selection](self.user_list)
 
-          elif selection in [5]:
-            # If showing book's borrower details
-            menu[selection](self.book_list)
-
           else:
-            # If going back to the main menu
+            # If showing all loans OR returning back to the main menu
             menu[selection]()
 
+          break
 
       except:
         print("\nSelection out of range, please try again.")
