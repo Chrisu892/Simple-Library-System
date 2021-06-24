@@ -11,7 +11,11 @@ class EntityList:
     and return its property value or any other property value."""
 
     while True:
+
       try:
+        # Define a variable to store a list of found entities
+        found_entities = list()
+
         # Prompt the user to enter a keyword
         keyword = str(input(f"Find {label if label != None else ''} {prop}: "))
 
@@ -22,20 +26,24 @@ class EntityList:
 
         # Loop through each entity in the list of entities
         for entity in self.entities:
+
           # Check if the value of the property inside entity object is equal to user keyword
           if entity.get(prop).lower() == keyword.lower():
+
             # Print notification
             print(f"Found '{prop}' ID: {entity.get(value)}")
-            # Return the entity
-            return entity
 
-        # Notify program user that the property is undefined
-        print(f"Entity with property '{prop}' set to '{keyword}' does not exist.")
+            # Return the entity
+            found_entities.append(entity)
 
       except:
         # Catch any unexpected errors and notify the user
         print(f"Could not find entity ID, property '{prop}' is not defined.")
         return False
+
+      else:
+        print(f"Found {len(found_entities)} entities.")
+        return found_entities
 
 
   def remove(self, prop:str, value:str) -> bool:
@@ -60,15 +68,18 @@ class EntityList:
   def show(self, prop:str, value:str):
     """Public method to show entity details from the list of entities."""
 
+    # Define a variable to store a list of found entities
+    found_entities = list()
+
     # Iterate through list of entities
     for entity in self.entities:
       # Check if entity's property value is equal to specified value
       if entity.get(prop).lower() == value.lower():
         # Return the entity object back to the caller
-        return entity
+        found_entities.append(entity)
 
     # If entity wasn't found, then return True
-    return False
+    return found_entities
 
 
   def show_all(self) -> list:
@@ -79,3 +90,15 @@ class EntityList:
   def count(self) -> int:
     """Return the number of entities."""
     return len(self.entities)
+
+
+  def create_table_header(self, col1:str, col2:str, col3:str, col4:str) -> str:
+    """Private method to create table header"""
+    self.create_table_border()
+    print(f"| {col1}{' ' * (14 - int(len(col1)))}| {col2}{' ' * (14 - int(len(col2)))}| {col3}{' ' * (14 - int(len(col3)))}| {col4}{' ' * (14 - int(len(col4)))}|")
+    self.create_table_border()
+
+
+  def create_table_border(self) -> str:
+    """Private method to create table bottom or top border."""
+    print(f"+{'-' * 15}+{'-' * 15}+{'-' * 15}+{'-' * 15}+")
