@@ -39,7 +39,7 @@ class UserList(EntityList):
           print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
 
         while True:
-          selection = int(input(f"\nPlease select user {enumerate(users).keys()}: "))
+          selection = int(input(f"\nPlease select user [1,2,3...]: "))
 
           if selection in range(1, len(users) + 1):
             if self.remove("id", users[idx].get('id')) == False:
@@ -93,13 +93,29 @@ class UserList(EntityList):
     If the user exists, invoke a method to update user details."""
 
     try:
-      user = self.find("username", "username", "username")
+      users = self.find("username", "username", "username")
 
-      if user:
-        user.update()
+      if len(users) > 1:
+        print("\nYour search returned more than 1 user:\n")
+        
+        for idx, user in enumerate(users):
+          print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
+
+        while True:
+          selection = int(input(f"\nPlease select user [1,2,3...]: "))
+
+          if selection in range(1, len(users) + 1):
+            users[idx].update()
+            break
+
+      else:
+        users[0].update()
 
     except:
       print("\nCouldn't find the user!")
+
+    else:
+      print("\nUser has been updated!")
 
 
   def show_users(self) -> None:
