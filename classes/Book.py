@@ -11,7 +11,7 @@ class Book(Entity):
     Entity.__init__(self)
 
 
-  def create(self):
+  def create(self) -> bool:
     """Public method to create a new book."""
 
     try:
@@ -26,6 +26,6 @@ class Book(Entity):
       print("\nFailed to create a new book!")
       return False
 
-    finally:
+    else:
       print(f"\nBook {self.get('title')} has been created!")
       return True

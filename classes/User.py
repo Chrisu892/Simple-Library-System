@@ -13,6 +13,7 @@ class User(Entity):
 
   def create(self) -> bool:
     """Method to create a new user."""
+
     try:
       self.set("username", str(input("Username: ")))
       self.set("first_name", str(input("First name: ")))
@@ -24,9 +25,31 @@ class User(Entity):
       self.set("email_address", str(input("Email address: ")))
 
     except:
-      print("\nFailed to create new user!\n")
+      print("\nFailed to create new user!")
       return False
 
-    finally:
+    else:
       print(f"\nUser '{self.get('first_name')} {self.get('last_name')}' has been created!")
+      return True
+
+
+  def update(self) -> bool:
+    """Method to update user details."""
+
+    try:
+      for prop, value in self.__dict__.items():
+        resp = self.prompt(f"Set {prop} from {value} to")
+
+        if resp != "":
+          self.set(prop, resp)
+          print(f"User {prop} has been updated!\n")
+        else:
+          print(f"User {prop} has not been updated.\n")
+
+    except:
+      print("\nCouldn't update user details!")
+      return False
+
+    else:
+      print("\nUser details have been updated!")
       return True

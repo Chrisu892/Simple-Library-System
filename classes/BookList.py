@@ -7,27 +7,35 @@ from .Book import Book
 class BookList(EntityList):
 
 
-  # Class constructor
   def __init__(self):
-    # Instantiate super class
+    """BookList class constructor."""
     EntityList.__init__(self)
 
 
-  # Method to add a book to the collection
-  def add_book(self):
+  def add_book(self) -> bool:
     """Public method to add a new book to the collection."""
 
-    # Create new instance of the Book
-    book = Book()
+    try:
+      # Create new instance of the Book class
+      book = Book()
 
-    # Create new book
-    if book.create():
-      self.entities.append(book)
+      # Create new book
+      if book.create():
+        self.entities.append(book)
+      else:
+        raise Exception
+
+    except Exception:
+      print("\nFailed to add a new book!")
+      return False
+
+    finally:
+      print(f"\nBook {book.get('title')} has been created!")
+      return True
 
 
-  # Method to remove the book from the list of books
   # @todo: if there are 2 or more books with the same title, prompt the user to select correct book
-  def remove_book(self) -> None:
+  def remove_book(self) -> bool:
     """Public method to remove a book from the collection."""
 
     try:
@@ -42,15 +50,16 @@ class BookList(EntityList):
           del self.entities[idx]
           # Notify the user about the change
           print(f"\nBook {title} has been removed.")
-          # Return truthy bool
-          return True
 
-      # Notify the user that book has not been found
-      print(f"\nBook {title} does not exist.")
-
-    except ValueError:
+    except:
       # Notify user that something went wrong
-      print("\nInvalid book title, please try again.")
+      print("\nBook not found.")
+      return False
+
+    else:
+      # Notify the program user about success
+      print(f"\nBook {title} has been removed from the collection.")
+      return True
 
 
   def find_book(self) -> None:
@@ -84,12 +93,8 @@ class BookList(EntityList):
         # Print the results back to the user
         print(f"\nYour search for '{keyword}' returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
         for book in found_books:
-          print(f"Title: {book.get('title')}")
-          print(f"Author: {book.get('author')}")
-          print(f"Year: {book.get('year')}")
-          print(f"Publisher name: {book.get('publisher_name')}")
-          print(f"Publication date: {book.get('publication_date')}")
-          print(f"Number of copies: {book.get('num_copies')}")
+          for item in book.__dict__.items():
+            print(f"{item[0]}: {item[1]}")
 
       else:
         # Otherwise, show the message that search returned 0 results
@@ -97,5 +102,7 @@ class BookList(EntityList):
 
 
   def num_books(self):
-    """Public method to show the number of books in the collection."""
+    """Public method to print the message to inform the program user
+    about how many books exists in the collection."""
+
     print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.")

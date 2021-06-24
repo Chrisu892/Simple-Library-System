@@ -35,8 +35,7 @@ class EntityList:
       except:
         # Catch any unexpected errors and notify the user
         print(f"Could not find entity ID, property '{prop}' is not defined.")
-
-    return False
+        return False
 
 
   def remove(self, prop:str, value:str) -> bool:

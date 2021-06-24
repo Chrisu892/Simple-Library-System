@@ -15,13 +15,17 @@ class Loans:
       book = book_list.find("title", "id", "book")
 
       self.loans.append({'user': user, 'book': book})
-      print(f"\nBook {book.get('title')} has been lended to user {user.get('first_name')} {user.get('last_name')}.")
 
     except:
       print(f"\nFailed to lend a book!\n")
+      return False
+
+    else:
+      print(f"\nBook {book.get('title')} has been lended to user {user.get('first_name')} {user.get('last_name')}.")
+      return True
 
 
-  def return_book(self, user_list:object, book_list:object) -> None:
+  def return_book(self, user_list:object, book_list:object) -> bool:
     """Method to return a book back to the Library."""
 
     try:
@@ -32,11 +36,15 @@ class Loans:
         for idx, loan in enumerate(self.loans):
           if loan['user'].get('id') == user.get('id') and loan['book'].get('id') == book.get('id'):
             del self.loans[idx]
-            print(f"\nBook {book.get('title')} has been returned to the Library by {user.get('first_name')} {user.get('last_name')}.")
             break
 
     except:
       print(f"\nFailed to return a book to the Library!\n")
+      return False
+
+    else:
+      print(f"\nBook {book.get('title')} has been returned to the Library by {user.get('first_name')} {user.get('last_name')}.")
+      return True
 
 
   def show_all_loans(self) -> None:

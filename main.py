@@ -89,9 +89,10 @@ class Library:
     menu = {
       1: self.user_list.add_user,
       2: self.user_list.remove_user,
-      3: self.user_list.find_user,
-      4: self.user_list.show_users,
-      5: self.start
+      3: self.user_list.update_user,
+      4: self.user_list.find_user,
+      5: self.user_list.show_users,
+      6: self.start
     }
 
     print("\nMANAGE USERS")
@@ -101,13 +102,14 @@ class Library:
         print("\nWhat would you like to do?")
         print("1. Add a user")
         print("2. Remove a user")
-        print("3. Find a user")
-        print("4. Show all users")
-        print("5. Go back\n")
+        print("3. Update a user")
+        print("4. Find a user")
+        print("5. Show all users")
+        print("6. Go back\n")
 
-        selection = int(input("Please select [1,2,3,4,5]: "))
+        selection = int(input("Please select [1,2,3,4,5,6]: "))
 
-        if selection not in range(1,6):
+        if selection not in range(1,7):
           raise ValueError
         else:
           menu[selection]()

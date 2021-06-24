@@ -12,32 +12,47 @@ class UserList(EntityList):
     EntityList.__init__(self)
 
 
-  def add_user(self):
-    """Public method to add a new user to the Library system."""
+  def add_user(self) -> bool:
+    """Public method to create a new instance of the user. If the user
+    has been successfully created, append new user to the list of entities."""
 
-    # Create new instance of the User
-    user = User()
+    try:
+      # Create new instance of the User
+      user = User()
 
-    # Create new user
-    if user.create():
-      self.entities.append(user)
+      # Create new user
+      if user.create():
+        self.entities.append(user)
+    
+    except:
+      print("\nFailed to add a new user!")
+      return False
+
+    else:
+      print(f"\nUser {user.get('username')} has been added!")
+      return True
 
 
-  def remove_user(self) -> bool:
-    """Public method to remove a user from the library system."""
+  def remove_user(self) -> None:
+    """Public method to prompt the user to enter the user's first name
+    and invoke a function to remove entity from the list of entities."""
 
     try:
       firstname = str(input("Enter user first name: "))
-      self.remove("first_name", firstname)
-      return True
+      if self.remove("first_name", firstname) == False:
+        raise Exception
 
     except:
-      print("Problem occurred while removing user from the library system.")
-    
-    return False
+      print("\nProblem occurred while removing user from the library system.")
+      return False
+
+    else:
+      print(f"User {firstname} has been removed from the system.")
+      return True
 
 
-  def find_user(self):
+
+  def find_user(self) -> None:
     """Public method to find the Library users by their username."""
 
     while True:
@@ -52,23 +67,31 @@ class UserList(EntityList):
 
         if user:
           print(f"\nYour search for '{username}' returned:\n")
-          print(f"ID: {user.get('id')}")
-          print(f"Username: {user.get('username')}")
-          print(f"First name: {user.get('first_name')}")
-          print(f"Last name: {user.get('last_name')}")
-          print(f"Date of birth: {user.get('dob')}")
-          print(f"House/Flat number: {user.get('house_no')}")
-          print(f"Street name: {user.get('street_name')}")
-          print(f"Postcode: {user.get('postcode')}")
-          print(f"Email address: {user.get('email_address')}")
 
+          for item in user.__dict__.items():
+            print(f"{item[0]}: {item[1]}")
           break
 
       except ValueError:
         print("\nInvalid input, please type alphanumerical username.\n")
+        break
 
 
-  def show_users(self):
+  def update_user(self) -> None:
+    """Public function to find a user by their username in the Library system.
+    If the user exists, invoke a method to update user details."""
+
+    try:
+      user = self.find("username", "username", "username")
+
+      if user:
+        user.update()
+
+    except:
+      print("\nCouldn't find the user!")
+
+
+  def show_users(self) -> None:
     """Public method to show all users of the Library system."""
     
     if self.count() > 0:
