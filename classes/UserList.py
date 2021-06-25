@@ -74,12 +74,15 @@ class UserList(EntityList):
         results = self.show("username", username)
 
         if len(results) > 0:
-          print(f"\nYour search for '{username}' returned {len(results)} result{'s' if len(results) > 1 else ''}:")
+          print(f"\nYour search for '{username}' returned {len(results)} result{'s' if len(results) > 1 else ''}:\n")
 
           for user in results:
-            print()
+            self.create_table_row("Attribute", "Value")
+
             for item in user.__dict__.items():
-              print(f"{item[0]}: {item[1]}")
+              self.create_table_row(item[0], item[1])
+
+          self.create_table_border(2)
 
           break
 
@@ -125,13 +128,12 @@ class UserList(EntityList):
       print(f"\nThe library system have {self.count()} user{'s' if self.count() > 1 else ''}:\n")
 
       # Create table header
-      self.create_table_border()
       self.create_table_row("ID", "Username", "First Name", "Last Name")
-      self.create_table_border()
 
       for user in self.show_all():
         self.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
-        self.create_table_border()
+
+      self.create_table_border(4)
 
     else:
       print(f"\nThe library system have 0 users.")
