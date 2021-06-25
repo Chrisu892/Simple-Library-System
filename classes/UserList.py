@@ -25,12 +25,12 @@ class UserList(EntityList):
       self.entities.append(user)
 
 
-  def remove_user(self) -> None:
+  def remove_user(self) -> bool:
     """Public method to prompt the user to enter the user's first name
     and invoke a function to remove entity from the list of entities."""
 
     try:
-      users = self.find("first_name", "first_name", "First name")
+      users = self.find("first_name", "first_name", "first name")
 
       if len(users) > 1:
         print(f"\nYour search returned more than 1 user:\n")
@@ -39,10 +39,10 @@ class UserList(EntityList):
           print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
 
         while True:
-          selection = int(input(f"\nPlease select user [1,2,3...]: "))
+          selection = int(input(f"\nPlease select a user [1,2,3...]: "))
 
           if selection in range(1, len(users) + 1):
-            if self.remove("id", users[idx].get('id')) == False:
+            if self.remove("id", users[selection - 1].get('id')) == False:
               print("\nFailed to remove user from list of multiple users.")
             else:
               break
@@ -123,10 +123,14 @@ class UserList(EntityList):
     
     if self.count() > 0:
       print(f"\nThe library system have {self.count()} user{'s' if self.count() > 1 else ''}:\n")
-      self.create_table_header("ID","Username","First Name","Last Name")
+
+      # Create table header
+      self.create_table_border()
+      self.create_table_row("ID", "Username", "First Name", "Last Name")
+      self.create_table_border()
 
       for user in self.show_all():
-        print(f"| {user.get('id')}{' ' * (14 - len(user.get('id')))}| {user.get('username')}{' ' * (14 - len(user.get('username')))}| {user.get('first_name')}{' ' * (14 - len(user.get('first_name')))}| {user.get('last_name')}{' ' * (14 - len(user.get('last_name')))}|")
+        self.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
         self.create_table_border()
 
     else:

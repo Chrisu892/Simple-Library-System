@@ -92,13 +92,10 @@ class EntityList:
     return len(self.entities)
 
 
-  def create_table_header(self, col1:str, col2:str, col3:str, col4:str) -> str:
-    """Private method to create table header"""
-    self.create_table_border()
-    print(f"| {col1}{' ' * (14 - int(len(col1)))}| {col2}{' ' * (14 - int(len(col2)))}| {col3}{' ' * (14 - int(len(col3)))}| {col4}{' ' * (14 - int(len(col4)))}|")
-    self.create_table_border()
+  def create_table_row(self, col1:str, col2:str, col3:str, col4:str) -> None:
+    """Method to create a table row with four columns."""
+    print(f"| {col1}{' ' * (14 - len(col1))}| {col2}{' ' * (14 - len(col2))}| {col3}{' ' * (14 - len(col3))}| {col4}{' ' * (14 - len(col4))}|")
 
-
-  def create_table_border(self) -> str:
+  def create_table_border(self) -> None:
     """Private method to create table bottom or top border."""
     print(f"+{'-' * 15}+{'-' * 15}+{'-' * 15}+{'-' * 15}+")

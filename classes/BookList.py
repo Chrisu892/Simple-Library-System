@@ -34,31 +34,37 @@ class BookList(EntityList):
       return True
 
 
-  # @todo: if there are 2 or more books with the same title, prompt the user to select correct book
   def remove_book(self) -> bool:
     """Public method to remove a book from the collection."""
 
     try:
-      # Prompt the user to enter the title of the book to remove
-      title = str(input("Book title to remove: "))
+      books = self.find("title", "title", "book")
 
-      # Iterate through the list of books
-      for idx, book in enumerate(self.entities):
-        # Find a matching book title
-        if book.get('title').lower() == title.lower():
-          # Delete matching book from the list
-          del self.entities[idx]
-          # Notify the user about the change
-          print(f"\nBook {title} has been removed.")
+      if len(books) > 1:
+        print("\nYour search returned more than 1 book:\n")
+
+        for idx, book in enumerate(books):
+          print(f"{idx+1}. {book.get('title')} (author: {book.get('author')})")
+
+        while True:
+          selection = int(input(f"\nPlease select a book [1,2,3...]: "))
+
+          if selection in range(1, len(books) + 1):
+            if self.remove("id", books[selection - 1].get('id')) == False:
+              print("\nFailed to remove book from the collection.")
+            else:
+              break
+
+      else:
+        if self.remove("title", books[0].get('title')) == False:
+          print("\nFailed to remove book from the collection.")
 
     except:
-      # Notify user that something went wrong
-      print("\nBook not found.")
+      print(f"\nProblem occurred while removing the book from the collection.")
       return False
 
     else:
-      # Notify the program user about success
-      print(f"\nBook {title} has been removed from the collection.")
+      print(f"Book '{books[0].get('title')}' has been removed from the collection.")
       return True
 
 
@@ -92,9 +98,15 @@ class BookList(EntityList):
       if len(found_books) > 0:
         # Print the results back to the user
         print(f"\nYour search for '{keyword}' returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
+
+        # Create table header
+        self.create_table_border()
+        self.create_table_row("ID", "Title", "Author", "Copies")
+        self.create_table_border()
+
         for book in found_books:
-          for item in book.__dict__.items():
-            print(f"{item[0]}: {item[1]}")
+          self.create_table_row(book.get('id'), book.get('title'), book.get('author'), book.get('num_copies'))
+          self.create_table_border()
 
       else:
         # Otherwise, show the message that search returned 0 results
