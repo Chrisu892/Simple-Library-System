@@ -41,13 +41,11 @@ class Library:
 
         selection = int(input(f"Please select [1,2,3,4]: "))
 
-        if selection not in range(1,5):
-          raise ValueError
-        else:
+        if selection in range(1,5):
           menu[selection]()
 
       except ValueError:
-        print("\nSelection out of range, please try again.\n")
+        print("\nSelection out of range, please try again.")
 
 
   def manage_books(self):
@@ -74,13 +72,11 @@ class Library:
 
         selection = int(input(f"Please select [1,2,3,4,5]: "))
 
-        if selection not in range(1,6):
-          raise ValueError
-        else:
+        if selection in range(1,6):
           menu[selection]()
 
       except ValueError:
-        print("Selection out of range, please try again.")
+        print("\nSelection out of range, please try again.")
 
 
   def manage_users(self):
@@ -109,13 +105,11 @@ class Library:
 
         selection = int(input("Please select [1,2,3,4,5,6]: "))
 
-        if selection not in range(1,7):
-          raise ValueError
-        else:
+        if selection in range(1,7):
           menu[selection]()
 
       except ValueError:
-        print("Selection out of range, please try again.")
+        print("\nSelection out of range, please try again.")
 
 
   def manage_loans(self):
@@ -143,10 +137,7 @@ class Library:
         # Prompt the user to select 1 of the 5 options
         selection = int(input(f"Please select [1,2,3,4,5]: "))
 
-        if selection not in range(1,6):
-          raise ValueError
-
-        else:
+        if selection in range(1,6):
           if selection in [1,2]:
             # If lending or returning books
             menu[selection](self.user_list, self.book_list)
@@ -159,9 +150,7 @@ class Library:
             # If showing all loans OR returning back to the main menu
             menu[selection]()
 
-          break
-
-      except:
+      except ValueError:
         print("\nSelection out of range, please try again.")
 
 

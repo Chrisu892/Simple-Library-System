@@ -11,17 +11,17 @@ class Loans:
     """Method to lend a book to the user."""
 
     try:
-      user = user_list.find("username", "id", "user")
-      book = book_list.find("title", "id", "book")
+      users = user_list.find("username", "id", "user")
+      books = book_list.find("title", "id", "book")
 
-      self.loans.append({'user': user, 'book': book})
+      self.loans.append({'user': users[0], 'book': books[0]})
 
     except:
       print(f"\nFailed to lend a book!\n")
       return False
 
     else:
-      print(f"\nBook {book.get('title')} has been lended to user {user.get('first_name')} {user.get('last_name')}.")
+      print(f"\nBook {books[0].get('title')} has been lended to user {users[0].get('first_name')} {users[0].get('last_name')}.")
       return True
 
 
@@ -29,12 +29,44 @@ class Loans:
     """Method to return a book back to the Library."""
 
     try:
-      user = user_list.find("username", "username", "user")
-      book = book_list.find("title", "title", "book")
+      users = user_list.find("username", "username", "user")
+      books = book_list.find("title", "title", "book")
 
-      if user and book:
+      if users and books:
+        if len(users) > 1:
+          print(f"\nThere is more than 1 user with this username:\n")
+
+          for idx, user in enumerate(users):
+            print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
+
+          while True:
+            selection = int(input("Please select a user [1,2,3...]: "))
+
+            if selection in range(1, len(users) + 1):
+              user_id = users[selection - 1].get('id')
+              break
+
+        else:
+          user_id = users[0].get('id')
+
+        if len(books) > 1:
+          print(f"\nThere is more than 1 book with this title:\n")
+
+          for idx, book in enumerate(books):
+            print(f"\n{idx+1}. {book.get('title')} (author: {book.get('author')})")
+
+          while True:
+            book_selection = int(input("Please select a book [1,2,3...]: "))
+
+            if book_selection in range(1, len(books) + 1):
+              book_id = books[selection - 1].get('id')
+              break
+
+        else:
+          book_id = books[0].get('id')
+
         for idx, loan in enumerate(self.loans):
-          if loan['user'].get('id') == user.get('id') and loan['book'].get('id') == book.get('id'):
+          if loan['user'].get('id') == user_id and loan['book'].get('id') == book_id:
             del self.loans[idx]
             break
 
@@ -67,6 +99,7 @@ class Loans:
   def show_borrower_details(self, user_list:object) -> None:
     """Show book borrower details."""
 
+    # @todo: need to take into consideration multiple users
     try:
       user = user_list.find("username", "username", "user")
 

@@ -11,7 +11,6 @@ class EntityList:
     and return its property value or any other property value."""
 
     while True:
-
       try:
         # Define a variable to store a list of found entities
         found_entities = list()
@@ -49,20 +48,19 @@ class EntityList:
   def remove(self, prop:str, value:str) -> bool:
     """Public method to remove entity from the list of entities."""
 
-    # Iterate through list of entities
-    for idx, entity in enumerate(self.entities):
-      # Check if entity's property value is equal to specified value
-      if entity.get(prop).lower() == value.lower():
-        # Delete entity from the list of entities
-        del self.entities[idx]
-        # Notify the user about successful operation
-        print(f"\nEntity '{value}' has been removed.")
-        # Return True
-        return True
+    try:
+      # Iterate through list of entities
+      for idx, entity in enumerate(self.entities):
+        # Check if entity's property value is equal to specified value
+        if entity.get(prop).lower() == value.lower():
+          # Delete entity from the list of entities
+          del self.entities[idx]
 
-    # Notify the user that the entity could not be found and operation failed
-    print(f"\nEntity '{value}' could not be removed. '{value}' does not exists!")
-    return False
+    except:
+      return False
+
+    else:
+      return True
 
 
   def show(self, prop:str, value:str):

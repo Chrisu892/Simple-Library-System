@@ -52,9 +52,7 @@ class User(Entity):
           print(f"User {prop} has not been updated.\n")
 
     except:
-      print("\nCouldn't update user details!")
       return False
 
     else:
-      print("\nUser details have been updated!")
       return True
