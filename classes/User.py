@@ -11,14 +11,14 @@ class User(Entity):
 
     Entity.__init__(self)
 
-    self.username = ""
-    self.first_name = ""
-    self.last_name = ""
-    self.dob = ""
-    self.house_no = ""
-    self.street_name = ""
-    self.postcode = ""
-    self.email_address = ""
+    self.username:str = ""
+    self.first_name:str = ""
+    self.last_name:str = ""
+    self.dob:str = ""
+    self.house_no:int = 0
+    self.street_name:str = ""
+    self.postcode:str = ""
+    self.email_address:str = ""
 
 
   def create(self) -> bool:
@@ -26,7 +26,13 @@ class User(Entity):
 
     try:
       for prop in self.__dict__.items():
-        if prop[0] != 'id':
+
+        if prop[0] == 'id':
+          continue
+
+        if prop[0] == "house_no":
+          self.set(prop[0], self.prompt(f"{prop[0]}", "int"))
+        else:
           self.set(prop[0], self.prompt(f"{prop[0]}"))
 
     except:
@@ -56,3 +62,10 @@ class User(Entity):
 
     else:
       return True
+
+
+  def get_full_name(self) -> str:
+    if self.first_name and self.last_name:
+      return (self.first_name + ' ' + self.last_name)
+    else:
+      return "UNDEFINED FULL NAME"

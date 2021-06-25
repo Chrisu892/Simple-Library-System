@@ -1,6 +1,7 @@
 # Import super class EntityList
 from .EntityList import EntityList
 from .User import User
+from .UI import UI
 
 
 # Define subclass UserList
@@ -9,7 +10,9 @@ class UserList(EntityList):
 
   def __init__(self) -> None:
     """UserList class constructor."""
+
     EntityList.__init__(self)
+    self.UI = UI()
 
 
   def add_user(self) -> bool:
@@ -77,17 +80,18 @@ class UserList(EntityList):
           print(f"\nYour search for '{username}' returned {len(results)} result{'s' if len(results) > 1 else ''}:\n")
 
           for user in results:
-            self.create_table_row("Attribute", "Value")
+            self.UI.create_table_row("Attribute", "Value")
 
             for item in user.__dict__.items():
-              self.create_table_row(item[0], item[1])
+              self.UI.create_table_row(item[0], item[1])
 
-          self.create_table_border(2)
-
-          break
+          self.UI.create_table_border(2)
+          print()
 
       except:
         print("\nInvalid input, please type alphanumerical username.\n")
+
+      finally:
         break
 
 
@@ -128,12 +132,12 @@ class UserList(EntityList):
       print(f"\nThe library system have {self.count()} user{'s' if self.count() > 1 else ''}:\n")
 
       # Create table header
-      self.create_table_row("ID", "Username", "First Name", "Last Name")
+      self.UI.create_table_row("ID", "Username", "First Name", "Last Name")
 
       for user in self.show_all():
-        self.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
+        self.UI.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
 
-      self.create_table_border(4)
+      self.UI.create_table_border(4)
 
     else:
       print(f"\nThe library system have 0 users.")

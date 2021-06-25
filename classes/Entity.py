@@ -25,7 +25,7 @@ class Entity:
       return True
 
 
-  def get(self, prop) -> str or bool:
+  def get(self, prop):
     """Public method to get the property of the class."""
 
     try:
@@ -36,7 +36,7 @@ class Entity:
       return False
 
 
-  def prompt(self, label, input_type = "str") -> str or int:
+  def prompt(self, label, input_type = "str"):
     """Method to prompt the user to type some data into the program."""
 
     if input_type == "int":

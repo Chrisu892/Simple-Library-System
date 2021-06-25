@@ -1,6 +1,7 @@
 # Import super class EntityList
 from .EntityList import EntityList
 from .Book import Book
+from .UI import UI
 
 
 # Define subclass BookList
@@ -9,7 +10,9 @@ class BookList(EntityList):
 
   def __init__(self):
     """BookList class constructor."""
+
     EntityList.__init__(self)
+    self.UI = UI()
 
 
   def add_book(self) -> bool:
@@ -100,13 +103,11 @@ class BookList(EntityList):
         print(f"\nYour search for '{keyword}' returned {len(found_books)} result{'s' if len(found_books) > 1 else ''}:\n")
 
         # Create table header
-        self.create_table_border()
-        self.create_table_row("ID", "Title", "Author", "Copies")
-        self.create_table_border()
+        self.UI.create_table_row("ID", "Title", "Author", "Copies")
 
         for book in found_books:
-          self.create_table_row(book.get('id'), book.get('title'), book.get('author'), book.get('num_copies'))
-          self.create_table_border()
+          self.UI.create_table_row(book.get('id'), book.get('title'), book.get('author'), book.get('num_copies'))
+          self.UI.create_table_border(4)
 
       else:
         # Otherwise, show the message that search returned 0 results

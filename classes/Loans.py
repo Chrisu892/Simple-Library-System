@@ -1,32 +1,103 @@
+# Import required modules
+from .UI import UI
+
+
 # Define Loan class
 class Loans:
 
 
   def __init__(self):
     """Loans class constructor."""
+
     self.loans = list()
+    self.UI = UI()
 
 
   def lend_book(self, user_list:object, book_list:object) -> bool:
     """Method to lend a book to the user."""
 
+    # Check if the list of users is empty
+    if user_list.count() == 0:
+      print("\nThe Library does not have any users.")
+      return False
+
+    # Check if the list of books is empty
+    if book_list.count() == 0:
+      print("\nThe Library's book collection is empty.")
+      return False
+
     try:
+      # Find users that match the provided username
       users = user_list.find("username", "id", "user")
+
+      if len(users) > 1:
+        print("\nThere is more than 1 user with this username:\n")
+
+        for idx, user in enumerate(users):
+          print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
+
+        while True:
+          selection = int(input("Please select [1,2,3...]: "))
+
+          if selection in range(1, len(users) + 1):
+            the_user = users[idx]
+            break
+
+      else:
+        the_user = users[0]
+
       books = book_list.find("title", "id", "book")
 
-      self.loans.append({'user': users[0], 'book': books[0]})
+      if len(books) > 1:
+        print("\nThere is more than 1 book with this title:\n")
+        
+        for idx, book in enumerate(books):
+          print(f"{idx+1}. {book.get('title')} (author: {book.get('author')})")
+
+        while True:
+          selection = int(input("Please select [1,2,3...]: "))
+
+          if selection in range(1, len(books) + 1):
+            the_book = books[idx]
+            break
+
+      else:
+        the_book = books[0]
+
+      num_copies = the_book.get('num_copies')
+
+      for loan in self.loans:
+        if loan['book'].get('id') == the_book.get('id'):
+          if int(num_copies) > 0:
+            num_copies = int(num_copies) - 1
+          else:
+            break
+
+      if int(num_copies) > 0:
+        self.loans.append({'user': the_user, 'book': the_book})
+      else:
+        raise Exception
+
+    except Exception:
+      print(f"\nInsufficient number of copies left.")
+      return False
 
     except:
-      print(f"\nFailed to lend a book!\n")
+      print(f"\nFailed to lend a book!")
       return False
 
     else:
-      print(f"\nBook {books[0].get('title')} has been lended to user {users[0].get('first_name')} {users[0].get('last_name')}.")
+      print(f"\nBook {the_book.get('title')} has been loaned to {the_user.get_full_name()}.")
       return True
 
 
   def return_book(self, user_list:object, book_list:object) -> bool:
     """Method to return a book back to the Library."""
+
+    # Check if the list of loans is empty
+    if len(self.loans) == 0:
+      print("\nThere are 0 active loans in the Library.")
+      return False
 
     try:
       users = user_list.find("username", "username", "user")
@@ -59,7 +130,7 @@ class Loans:
             book_selection = int(input("Please select a book [1,2,3...]: "))
 
             if book_selection in range(1, len(books) + 1):
-              book_id = books[selection - 1].get('id')
+              book_id = books[book_selection - 1].get('id')
               break
 
         else:
@@ -75,7 +146,7 @@ class Loans:
       return False
 
     else:
-      print(f"\nBook {book.get('title')} has been returned to the Library by {user.get('first_name')} {user.get('last_name')}.")
+      print(f"\nBook {book.get('title')} has been returned to the Library by {user.get_full_name()}.")
       return True
 
 
@@ -85,45 +156,64 @@ class Loans:
     try:
       if self.count() > 0:
         print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} on loan:\n")
+        self.UI.create_table_row("Book Title", "Borrower")
 
         for loan in self.loans:
-          print(f"{loan['book'].get('title')} is loaned to {loan['user'].get('first_name')} {loan['user'].get('last_name')}.")
+          self.UI.create_table_row(loan['book'].get('title'), loan['user'].get_full_name())
+        self.UI.create_table_border(2)
 
       else:
-        print("\nThere are no books on loan.")
+        print("\nThere are 0 active loans in the Library.")
 
     except:
-      print("\nFailed to show books on loans!")
+      print("\nFailed to retrieve loaned books!")
 
 
-  def show_borrower_details(self, user_list:object) -> None:
+  def show_borrower_details(self, user_list:object) -> bool:
     """Show book borrower details."""
 
-    # @todo: need to take into consideration multiple users
+    if len(self.loans) == 0:
+      print("\nThe Library has 0 active loans.")
+      return False
+
     try:
-      user = user_list.find("username", "username", "user")
+      users = user_list.find("username", "username", "user")
+      user_loans = list()
 
-      if user:
-        user_loans = list()
+      if len(users) > 1:
+        print("\nYour search returned more than 1 user:\n")
 
-        for loan in self.loans:
-          if loan['user'].get('id') == user.get('id'):
-            user_loans.append(loan)
+        for idx, user in enumerate(users):
+          print(f"{idx+1}. {user.get_full_name()} ({user.get('username')})")
 
-        if len(user_loans) > 0:
-          print(f"\n{user.get('first_name')} {user.get('last_name')} has {len(user_loans)} active loan{'s' if len(user_loans) > 1 else ''}:\n")
+          while True:
+            selection = int(input(f"\nPlease select user [1,2,3...]: "))
 
-          for loan in user_loans:
-            print(f"{loan['book'].get('title')}")
-
-        else:
-          print(f"\n{user.get('first_name')} {user.get('last_name')} has 0 active loans.")
+            if selection in range(1, len(users) + 1):
+              the_user = users[idx]
+              break
 
       else:
-        print(f"\nUser doesn't exists!")
+        the_user = users[0]
+
+      for loan in self.loans:
+        if loan['user'].get('id') == the_user.get('id'):
+          user_loans.append(loan)
+
+      if len(user_loans) > 0:
+        print(f"\n{the_user.get_full_name()} has {len(user_loans)} active loan{'s' if len(user_loans) > 1 else ''}:\n")
+        for loan in user_loans:
+          print(f"{loan['book'].get('title')}")
+
+      else:
+        print(f"\n{user.get('first_name')} {user.get('last_name')} has 0 active loans.")
 
     except:
       print("\nCouldn't find the borrower!")
+      return False
+
+    else:
+      return True
 
 
   def count(self) -> int:
