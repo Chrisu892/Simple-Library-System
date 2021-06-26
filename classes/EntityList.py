@@ -83,7 +83,7 @@ class EntityList:
     return len(self.entities)
 
 
-  def select_from_list(self, the_list:list, prop:str):
+  def select_from_list(self, the_list:list, prop:str) -> object:
     """Method to print the list of entities stored in the list. Program should prompt the user to select one entity and return it back to the caller."""
 
     try:

@@ -47,15 +47,7 @@ class Entity:
     """Method to create a new entity."""
 
     try:
-      for prop in self.__dict__.items():
-
-        if prop[0] == "id":
-          continue
-
-        if type(prop[0]) == "int":
-          self.set(prop[0], self.prompt(f"{prop[0]}", "int"))
-        else:
-          self.set(prop[0], self.prompt(f"{prop[0]}"))
+      self.__set__properties(entity_type)
 
     except:
       print(f"\nFailed to create a new {entity_type if entity_type != None else 'entity'}!")
@@ -70,24 +62,14 @@ class Entity:
     """Method to update entity details."""
 
     try:
-      for prop, value in self.__dict__.items():
-
-        if prop[0] == "id":
-          continue
-
-        resp = self.prompt(f"Set {prop} from {value} to")
-
-        if resp != "":
-          self.set(prop, resp)
-          print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been updated!\n")
-
-        else:
-          print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been skipped!\n")
+      self.__set__properties(entity_type)
 
     except:
+      # If errors occurred, return False
       return False
 
     else:
+      # If everything is OK, then return True
       return True
 
 
@@ -103,8 +85,32 @@ class Entity:
       return str(input(f"{label}: "))
 
 
-  def __random_id(self) -> str:
-    """Private method to generate and return the ID of the entity.
-    For example: 123-456-768 would be generated and set as the ID."""
+  def __set__properties(self, entity_type:str = None) -> None:
+    """Private method to set object properties."""
 
+    # Iterate through the properties of the class
+    for prop, value in self.__dict__.items():
+        
+      # Skip prompting user to change the ID
+      if prop == "id":
+        continue
+
+      # Prompt the user to enter a new value for the object property
+      resp = self.prompt(f"{prop}", type(prop))
+
+      # Check if response is not empty
+      if resp != "":
+        # Set property to the new value
+        self.set(prop, resp)
+
+        # Print a confirmation message
+        print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been updated!\n")
+
+      else:
+        # Print message that updating this property has been skipped
+        print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been skipped!\n")
+
+
+  def __random_id(self) -> str:
+    """Private method to generate and return the ID of the entity. For example: 123-456-768 would be generated and set as the ID."""
     return str(randint(100, 1000)) + "-" + str(randint(100, 1000)) + "-" + str(randint(100, 1000))

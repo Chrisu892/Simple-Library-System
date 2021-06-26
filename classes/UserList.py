@@ -15,7 +15,7 @@ class UserList(EntityList):
     self.Table = TableGenerator()
 
 
-  def add_user(self) -> bool:
+  def add_new_user(self) -> bool:
     """Public method to create a new instance of the user. If the user has been successfully created, append new user to the list of entities."""
 
     # Create new instance of the User
@@ -27,7 +27,7 @@ class UserList(EntityList):
       self.entities.append(user)
 
 
-  def remove_user(self) -> bool:
+  def remove_existing_user(self) -> bool:
     """Public method to prompt the user to enter the user's first name and invoke a function to remove entity from the list of entities."""
 
     try:
@@ -75,7 +75,7 @@ class UserList(EntityList):
       return False
 
 
-  def find_user(self) -> None:
+  def show_user_details(self) -> None:
     """Method to find the Library user by their username and show their full information back to the administrator."""
 
     try:
@@ -114,7 +114,7 @@ class UserList(EntityList):
 
       # Alternatively, if the search returned 1 result
       elif len(users) == 1:
-        # Set the_user variable to be the first element of the users list
+        # Set the_user variable to be the first element from the users list
         the_user = users[0]
 
       else:
@@ -138,7 +138,7 @@ class UserList(EntityList):
       print("\nError occurred in the update_user method.")
 
 
-  def show_users(self) -> None:
+  def show_all_users(self) -> None:
     """Public method to show all users of the Library system."""
     
     # Check if the list of library users is not empty

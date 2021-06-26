@@ -41,7 +41,7 @@ class Library:
 
         selection = int(input(f"Please select [1,2,3,4]: "))
 
-        if selection in range(1,5):
+        if selection in range(1, len(menu) + 1):
           menu[selection]()
 
       except ValueError:
@@ -54,9 +54,10 @@ class Library:
     menu = {
       1: self.book_list.add_book,
       2: self.book_list.remove_book,
-      3: self.book_list.find_book,
-      4: self.book_list.num_books,
-      5: self.start,
+      3: self.book_list.update_book_details,
+      4: self.book_list.find_book,
+      5: self.book_list.num_books,
+      6: self.start,
     }
 
     print("\nMANAGE BOOKS")
@@ -66,13 +67,14 @@ class Library:
         print("\nWhat would you like to do?")
         print("1. Add a book")
         print("2. Remove a book")
-        print("3. Find a book")
-        print("4. Number of books")
-        print("5. Go back\n")
+        print("3. Update a book")
+        print("4. Find a book")
+        print("5. Number of books")
+        print("6. Go back\n")
 
-        selection = int(input(f"Please select [1,2,3,4,5]: "))
+        selection = int(input(f"Please select [1,2,3,4,5,6]: "))
 
-        if selection in range(1,6):
+        if selection in range(1, len(menu) + 1):
           menu[selection]()
 
       except ValueError:
@@ -83,11 +85,11 @@ class Library:
     """Public method to show the Library users management menu."""
 
     menu = {
-      1: self.user_list.add_user,
-      2: self.user_list.remove_user,
+      1: self.user_list.add_new_user,
+      2: self.user_list.remove_existing_user,
       3: self.user_list.update_user_details,
-      4: self.user_list.find_user,
-      5: self.user_list.show_users,
+      4: self.user_list.show_user_details,
+      5: self.user_list.show_all_users,
       6: self.start
     }
 
@@ -105,7 +107,7 @@ class Library:
 
         selection = int(input("Please select [1,2,3,4,5,6]: "))
 
-        if selection in range(1,7):
+        if selection in range(1, len(menu) + 1):
           menu[selection]()
 
       except ValueError:
@@ -137,7 +139,7 @@ class Library:
         # Prompt the user to select 1 of the 5 options
         selection = int(input(f"Please select [1,2,3,4,5]: "))
 
-        if selection in range(1,6):
+        if selection in range(1, len(menu) + 1):
           if selection in [1,2]:
             # If lending or returning books
             menu[selection](self.user_list, self.book_list)

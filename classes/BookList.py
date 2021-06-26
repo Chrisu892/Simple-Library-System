@@ -41,6 +41,37 @@ class BookList(EntityList):
       return True
 
 
+  def update_book_details(self) -> bool:
+    """Public method to find a book by the title in the Library system. If the book exists, invoke a method to update user details."""
+
+    try:
+      # Prompt the user to enter the book's title to find:
+      books = self.find("title", "title", "book")
+
+      # Check if the search returned moe than 1 result
+      if len(books) > 1:
+        # Prompt the user to select 1 of the books from the list and set the_book
+        the_book = self.select_from_list(books, "title")
+
+      # Alternatively, if the search returned 1 result
+      elif len(books) == 1:
+        # Set the_book variable to be the first element from the book list
+        the_book = books[0]
+
+      else:
+        # Print a message that the program couldn't find the book
+        print("\nBook not found!")
+
+      if the_book.update_book():
+        return True
+
+      else:
+        return False
+
+    except:
+      print("\nError occurred in BookList, update_user method.")
+
+
   def remove_book(self) -> bool:
     """Public method to remove a book from the list of books."""
 
@@ -147,7 +178,6 @@ class BookList(EntityList):
         print("Selection out of range, please try again.")
 
 
-  def num_books(self):
+  def num_books(self) -> None:
     """Public method to print the message to inform the program user about how many books exists in the collection."""
-
     print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.")
