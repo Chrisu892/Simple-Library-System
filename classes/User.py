@@ -49,13 +49,17 @@ class User(Entity):
 
     try:
       for prop, value in self.__dict__.items():
+
+        if prop[0] == 'id':
+          continue
+
         resp = self.prompt(f"Set {prop} from {value} to")
 
         if resp != "":
           self.set(prop, resp)
           print(f"User {prop} has been updated!\n")
         else:
-          print(f"User {prop} has not been updated.\n")
+          print(f"{prop} has been skipped.\n")
 
     except:
       return False

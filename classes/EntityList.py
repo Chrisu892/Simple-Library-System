@@ -18,6 +18,11 @@ class EntityList:
         # Prompt the user to enter a keyword
         keyword = str(input(f"Find {label if label != None else ''} {prop}: "))
 
+        # Check if keyword is not empty
+        if keyword == "":
+          print("Input cannot be empty, please try again.")
+          continue
+
         # Check if user forced to cancel the search operation
         if keyword == 'q':
           print('Operation has been canceled!')
@@ -39,7 +44,10 @@ class EntityList:
         return False
 
       else:
-        return found_entities
+        if len(found_entities) > 0:
+          return found_entities
+        else:
+          return False
 
 
   def remove(self, prop:str, value:str) -> bool:
@@ -48,8 +56,10 @@ class EntityList:
     try:
       # Iterate through list of entities
       for idx, entity in enumerate(self.entities):
+
         # Check if entity's property value is equal to specified value
         if entity.get(prop).lower() == value.lower():
+
           # Delete entity from the list of entities
           del self.entities[idx]
 
@@ -68,8 +78,10 @@ class EntityList:
 
     # Iterate through list of entities
     for entity in self.entities:
+
       # Check if entity's property value is equal to specified value
       if entity.get(prop).lower() == value.lower():
+
         # Return the entity object back to the caller
         found_entities.append(entity)
 

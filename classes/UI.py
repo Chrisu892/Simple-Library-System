@@ -11,13 +11,13 @@ class UI:
     if col4 != None:
       string += f"{'-' * 16}+"
 
-    string += f"\n| {col1}{' ' * (15 - len(col1))}| {col2}{' ' * (15 - len(col2))}|"
+    string += f"\n| {col1}{' ' * (15 - len(str(col1)))}| {col2}{' ' * (15 - len(str(col2)))}|"
 
     if col3 != None:
-      string += f" {col3}{' ' * (15 - len(col3))}|"
+      string += f" {col3}{' ' * (15 - len(str(col3)))}|"
 
     if col4 != None:
-      string += f" {col4}{' ' * (15 - len(col4))}|"
+      string += f" {col4}{' ' * (15 - len(str(col4)))}|"
 
     print(string)
 

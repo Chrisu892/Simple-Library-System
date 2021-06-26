@@ -43,8 +43,12 @@ class Loans:
             the_user = users[idx]
             break
 
-      else:
+      elif len(users) == 1:
         the_user = users[0]
+
+      else:
+        print("\nThis user does not exists, please try again.")
+        return False
 
       books = book_list.find("title", "id", "book")
 
@@ -61,20 +65,27 @@ class Loans:
             the_book = books[idx]
             break
 
-      else:
+      elif len(books) == 1:
         the_book = books[0]
+
+      else:
+        print("\nThis book does not exists, please try again.")
+        return False
 
       num_copies = the_book.get('num_copies')
 
       for loan in self.loans:
         if loan['book'].get('id') == the_book.get('id'):
+
           if int(num_copies) > 0:
             num_copies = int(num_copies) - 1
+
           else:
             break
 
       if int(num_copies) > 0:
         self.loans.append({'user': the_user, 'book': the_book})
+
       else:
         raise Exception
 
@@ -87,7 +98,7 @@ class Loans:
       return False
 
     else:
-      print(f"\nBook {the_book.get('title')} has been loaned to {the_user.get_full_name()}.")
+      print(f"Book {the_book.get('title')} has been loaned to {the_user.get_full_name()}.")
       return True
 
 
@@ -108,17 +119,21 @@ class Loans:
           print(f"\nThere is more than 1 user with this username:\n")
 
           for idx, user in enumerate(users):
-            print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
+            print(f"{idx+1}. {user.get_full_name()} ({user.get('username')})")
 
           while True:
-            selection = int(input("Please select a user [1,2,3...]: "))
+            user_selection = int(input("Please select a user [1,2,3...]: "))
 
-            if selection in range(1, len(users) + 1):
-              user_id = users[selection - 1].get('id')
+            if user_selection in range(1, len(users) + 1):
+              the_user = users[user_selection - 1]
               break
 
+        elif len(users) == 1:
+          the_user = users[0]
+
         else:
-          user_id = users[0].get('id')
+          print("\nUser not found!")
+          return False
 
         if len(books) > 1:
           print(f"\nThere is more than 1 book with this title:\n")
@@ -130,14 +145,18 @@ class Loans:
             book_selection = int(input("Please select a book [1,2,3...]: "))
 
             if book_selection in range(1, len(books) + 1):
-              book_id = books[book_selection - 1].get('id')
+              the_book = books[book_selection - 1]
               break
 
+        elif len(books) == 1:
+          the_book = books[0]
+
         else:
-          book_id = books[0].get('id')
+          print("\nBook not found!")
+          return False
 
         for idx, loan in enumerate(self.loans):
-          if loan['user'].get('id') == user_id and loan['book'].get('id') == book_id:
+          if loan['user'].get('id') == the_user.get('id') and loan['book'].get('id') == the_book.get('id'):
             del self.loans[idx]
             break
 
@@ -146,7 +165,7 @@ class Loans:
       return False
 
     else:
-      print(f"\nBook {book.get('title')} has been returned to the Library by {user.get_full_name()}.")
+      print(f"\nBook {the_book.get('title')} has been returned to the Library by {the_user.get_full_name()}.")
       return True
 
 
@@ -201,7 +220,7 @@ class Loans:
           user_loans.append(loan)
 
       if len(user_loans) > 0:
-        print(f"\n{the_user.get_full_name()} has {len(user_loans)} active loan{'s' if len(user_loans) > 1 else ''}:\n")
+        print(f"{the_user.get_full_name()} has {len(user_loans)} active loan{'s' if len(user_loans) > 1 else ''}:\n")
         for loan in user_loans:
           print(f"{loan['book'].get('title')}")
 
