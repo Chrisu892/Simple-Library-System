@@ -27,7 +27,7 @@ class User(Entity):
     try:
       for prop in self.__dict__.items():
 
-        if prop[0] == 'id':
+        if prop[0] == "id":
           continue
 
         if prop[0] == "house_no":
@@ -72,4 +72,4 @@ class User(Entity):
     if self.first_name and self.last_name:
       return (self.first_name + ' ' + self.last_name)
     else:
-      return "UNDEFINED FULL NAME"
+      return "UNDEFINED"

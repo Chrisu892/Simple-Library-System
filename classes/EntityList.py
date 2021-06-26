@@ -16,11 +16,11 @@ class EntityList:
         found_entities = list()
 
         # Prompt the user to enter a keyword
-        keyword = str(input(f"Find {label if label != None else ''} {prop}: "))
+        keyword = str(input(f"Find {label if label != None else ''}'s {prop}: "))
 
         # Check if keyword is not empty
         if keyword == "":
-          print("Input cannot be empty, please try again.")
+          print(f"{label if label != None else 'Input'} cannot be empty, please try again.")
           continue
 
         # Check if user forced to cancel the search operation
@@ -97,3 +97,27 @@ class EntityList:
   def count(self) -> int:
     """Return the number of entities."""
     return len(self.entities)
+
+
+  def select_from_list(self, the_list:list, prop:str):
+    """Method to print the list of entities stored in the list. Program should
+    prompt the user to select one entity and return it back to the caller."""
+
+    try:
+      print(f"\nYour search returned more than 1 result:\n")
+
+      for idx, entity in enumerate(the_list):
+        print(f"{idx+1}. {entity.get(prop)}")
+
+      while True:
+        selection = int(input("\nPlease select [1,2,3...]: "))
+
+        if selection in range(1, len(the_list) + 1):
+          return the_list[selection - 1]
+
+        else:
+          print("\nSelection out of range, please try again.")
+
+    except:
+      print("Error occurred in select_from_list method.")
+      return False

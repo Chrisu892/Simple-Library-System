@@ -48,53 +48,44 @@ class BookList(EntityList):
       # Prompt the user to find a book by its title
       books = self.find("title", "title", "book")
 
-      # If the returned list is greater than 1
+      if books == False:
+        print("\nThis book doesn't exists!")
+        return False
+
+      # If the list has more than one book
       if len(books) > 1:
+        # Prompt the user to select one of the books
+        the_book = self.select_from_list(books, "title")
 
-        # Show a message that the search returned more than 1 book
-        print("\nYour search returned more than 1 book:\n")
+      # If the list has only one book
+      elif len(books) == 1:
+        # Pick the only book in the list
+        the_book = books[0]
 
-        # Loop through all books in the list of found books
-        for idx, book in enumerate(books):
-
-          # Print option number and the book details
-          print(f"{idx+1}. {book.get('title')} (author: {book.get('author')})")
-
-        while True:
-          # Prompt the user to select a book from the list
-          selection = int(input(f"\nPlease select a book [1,2,3...]: "))
-
-          # Check if the selection is within the range of found books
-          if selection in range(1, len(books) + 1):
-
-            # Try to remove the book by its ID
-            if self.remove("id", books[selection - 1].get('id')) == False:
-              raise Exception
-
-            # Break out of the loop if the book has been removed
-            else:
-              break
-
-      # If the list of found books has only 1 book
+      # Otherwise, the list is empty
       else:
-        # Try to remove the book by its title
-        if self.remove("title", books[0].get('title')) == False:
-          raise Exception
+        print("\nBook not found!")
+        return False
 
+      # Try to remove the book from the list by it's ID
+      if self.remove("id", the_book.get('id')):
+        # If book has been removed, show a message and return True
+        print(f"Book '{the_book.get('title')}' has been removed from the collection.")
+        return True
+
+      # Otherwise, show a message that book does not exists, and return False
+      else:
+        print(f"\nFailed to remove book from the collection. {the_book.get('title')} does not exists.")
+        return False
+
+    # Catch any problems and return False
     except:
-      # Show a message that program failed to remove the book from the list
-      print("\nFailed to remove book from the collection.")
+      print("\nProblem occurred in the remove_book method.")
       return False
-
-    else:
-      # Show a message that the program successfully removed the book from the list
-      print(f"Book '{books[0].get('title')}' has been removed from the collection.")
-      return True
 
 
   def find_book(self) -> None:
-    """Public method to find a book in the collection by its
-    title, author, publisher_name or publication_date."""
+    """Public method to find a book in the collection by it's title, author, publisher_name or publication_date."""
 
     # Define empty list to store all books that match the search_by criteria
     found_books = []
@@ -160,8 +151,8 @@ class BookList(EntityList):
       else:
         print("Selection out of range, please try again.")
 
+
   def num_books(self):
-    """Public method to print the message to inform the program user
-    about how many books exists in the collection."""
+    """Public method to print the message to inform the program user about how many books exists in the collection."""
 
     print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.")
