@@ -2,7 +2,7 @@
 from .TableGenerator import TableGenerator
 
 
-# Define Loan class
+# Define Loans class
 class Loans:
 
 
@@ -98,7 +98,7 @@ class Loans:
       return False
 
     else:
-      print(f"Book {the_book.get('title')} has been loaned to {the_user.get_full_name()}.")
+      print(f"\nBook {the_book.get('title')} has been loaned to {the_user.get_full_name()}.")
       return True
 
 
@@ -174,8 +174,8 @@ class Loans:
 
     try:
       if self.count() > 0:
-        print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} on loan:\n")
 
+        print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} on loan:\n")
         self.Table.create_table_row("Book Title", "Borrower")
 
         for loan in self.loans:

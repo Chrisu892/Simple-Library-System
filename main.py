@@ -85,7 +85,7 @@ class Library:
     menu = {
       1: self.user_list.add_user,
       2: self.user_list.remove_user,
-      3: self.user_list.update_user,
+      3: self.user_list.update_user_details,
       4: self.user_list.find_user,
       5: self.user_list.show_users,
       6: self.start

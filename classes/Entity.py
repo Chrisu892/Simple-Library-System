@@ -43,6 +43,54 @@ class Entity:
       return False
 
 
+  def create(self, entity_type:str = None) -> bool:
+    """Method to create a new entity."""
+
+    try:
+      for prop in self.__dict__.items():
+
+        if prop[0] == "id":
+          continue
+
+        if type(prop[0]) == "int":
+          self.set(prop[0], self.prompt(f"{prop[0]}", "int"))
+        else:
+          self.set(prop[0], self.prompt(f"{prop[0]}"))
+
+    except:
+      print(f"\nFailed to create a new {entity_type if entity_type != None else 'entity'}!")
+      return False
+
+    else:
+      print(f"\nA new {entity_type if entity_type != None else 'entity'} has been created!")
+      return True
+
+
+  def update(self, entity_type:str = None) -> bool:
+    """Method to update entity details."""
+
+    try:
+      for prop, value in self.__dict__.items():
+
+        if prop[0] == "id":
+          continue
+
+        resp = self.prompt(f"Set {prop} from {value} to")
+
+        if resp != "":
+          self.set(prop, resp)
+          print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been updated!\n")
+
+        else:
+          print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been skipped!\n")
+
+    except:
+      return False
+
+    else:
+      return True
+
+
   def prompt(self, label, input_type = "str"):
     """Method to prompt the user to type some data into the program."""
 

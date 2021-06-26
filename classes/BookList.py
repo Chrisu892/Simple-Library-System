@@ -23,7 +23,7 @@ class BookList(EntityList):
       book = Book()
 
       # Create new book (create method returns bool)
-      if book.create():
+      if book.create_book():
 
         # Append new book to the list of books
         self.entities.append(book)

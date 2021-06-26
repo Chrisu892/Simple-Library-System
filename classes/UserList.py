@@ -23,7 +23,7 @@ class UserList(EntityList):
 
     # Create new user
     # @todo: Could add a check if the username is already taken by someone else
-    if user.create():
+    if user.create_user():
       self.entities.append(user)
 
 
@@ -84,22 +84,12 @@ class UserList(EntityList):
 
       # If the search returned any results
       if len(users) > 0:
+
         # Print a message that the system found x number of users with the same username
         print(f"\nYour search returned {len(users)} user{'s' if len(users) > 1 else ''}:\n")
 
         # Create table of users
         self.Table.create_table(users)
-
-        # # Iterate through list of found users
-        # for user in users:
-        #   # Print the users table header
-        #   self.Table.create_table_row("ID","Username","Name","Email Address")
-
-        #   # Print the users table row
-        #   self.Table.create_table_row(user.get('id'), user.get('username'), user.get_full_name(), user.get('email_address'))
-
-        # # Print the users table bottom border
-        # self.Table.create_table_border(4)
 
       else:
         # Print a message that the search returned 0 results
@@ -110,7 +100,7 @@ class UserList(EntityList):
       print("\nError occurred in UserList, find_user method.")
 
 
-  def update_user(self) -> None:
+  def update_user_details(self) -> None:
     """Public function to find a user by their username in the Library system. If the user exists, invoke a method to update user details."""
 
     try:
@@ -135,7 +125,7 @@ class UserList(EntityList):
         return False
 
       # If the user was found and update method returned True
-      if the_user.update():
+      if the_user.update_user():
         # The execution of this method was successfull, return True
         return True
 
@@ -153,21 +143,12 @@ class UserList(EntityList):
     
     # Check if the list of library users is not empty
     if self.count() > 0:
+
       # Print a message stating how many library users is in the system
       print(f"\nThe library system have {self.count()} user{'s' if self.count() > 1 else ''}:\n")
 
       # Show table of users
       self.Table.create_table(self.show_all())
-
-      # # Print the users table header
-      # self.UI.create_table_row("ID", "Username", "First Name", "Last Name")
-
-      # # Print the users table rows
-      # for user in self.show_all():
-      #   self.UI.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
-
-      # # Print the users table bottom border
-      # self.UI.create_table_border(4)
 
     else:
       # Print the message that the library system doesn't have any users
