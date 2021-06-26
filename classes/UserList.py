@@ -1,7 +1,7 @@
 # Import super class EntityList
+from .TableGenerator import TableGenerator
 from .EntityList import EntityList
 from .User import User
-from .UI import UI
 
 
 # Define subclass UserList
@@ -12,7 +12,7 @@ class UserList(EntityList):
     """UserList class constructor."""
 
     EntityList.__init__(self)
-    self.UI = UI()
+    self.Table = TableGenerator()
 
 
   def add_user(self) -> bool:
@@ -87,16 +87,19 @@ class UserList(EntityList):
         # Print a message that the system found x number of users with the same username
         print(f"\nYour search returned {len(users)} user{'s' if len(users) > 1 else ''}:\n")
 
-        # Iterate through list of found users
-        for user in users:
-          # Print the users table header
-          self.UI.create_table_row("ID","Username","Name","Email Address")
+        # Create table of users
+        self.Table.create_table(users)
 
-          # Print the users table row
-          self.UI.create_table_row(user.get('id'), user.get('username'), user.get_full_name(), user.get('email_address'))
+        # # Iterate through list of found users
+        # for user in users:
+        #   # Print the users table header
+        #   self.Table.create_table_row("ID","Username","Name","Email Address")
 
-        # Print the users table bottom border
-        self.UI.create_table_border(4)
+        #   # Print the users table row
+        #   self.Table.create_table_row(user.get('id'), user.get('username'), user.get_full_name(), user.get('email_address'))
+
+        # # Print the users table bottom border
+        # self.Table.create_table_border(4)
 
       else:
         # Print a message that the search returned 0 results
@@ -153,15 +156,18 @@ class UserList(EntityList):
       # Print a message stating how many library users is in the system
       print(f"\nThe library system have {self.count()} user{'s' if self.count() > 1 else ''}:\n")
 
-      # Print the users table header
-      self.UI.create_table_row("ID", "Username", "First Name", "Last Name")
+      # Show table of users
+      self.Table.create_table(self.show_all())
 
-      # Print the users table rows
-      for user in self.show_all():
-        self.UI.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
+      # # Print the users table header
+      # self.UI.create_table_row("ID", "Username", "First Name", "Last Name")
 
-      # Print the users table bottom border
-      self.UI.create_table_border(4)
+      # # Print the users table rows
+      # for user in self.show_all():
+      #   self.UI.create_table_row(user.get('id'), user.get('username'), user.get('first_name'), user.get('last_name'))
+
+      # # Print the users table bottom border
+      # self.UI.create_table_border(4)
 
     else:
       # Print the message that the library system doesn't have any users

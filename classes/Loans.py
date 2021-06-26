@@ -1,5 +1,5 @@
 # Import required modules
-from .UI import UI
+from .TableGenerator import TableGenerator
 
 
 # Define Loan class
@@ -10,7 +10,7 @@ class Loans:
     """Loans class constructor."""
 
     self.loans = list()
-    self.UI = UI()
+    self.Table = TableGenerator()
 
 
   def lend_book(self, user_list:object, book_list:object) -> bool:
@@ -175,11 +175,12 @@ class Loans:
     try:
       if self.count() > 0:
         print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} on loan:\n")
-        self.UI.create_table_row("Book Title", "Borrower")
+
+        self.Table.create_table_row("Book Title", "Borrower")
 
         for loan in self.loans:
-          self.UI.create_table_row(loan['book'].get('title'), loan['user'].get_full_name())
-        self.UI.create_table_border(2)
+          self.Table.create_table_row(loan['book'].get('title'), loan['user'].get_full_name())
+        self.Table.create_table_border(2)
 
       else:
         print("\nThere are 0 active loans in the Library.")
