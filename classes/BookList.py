@@ -15,38 +15,38 @@ class BookList(EntityList):
     self.Table = TableGenerator()
 
 
-  def add_book(self) -> bool:
+  def add_book(self, book:object = None) -> bool:
     """Public method to add a new book to the collection."""
 
     try:
-      # Create new instance of the Book class
-      book = Book()
+      if book == None:
+        # Create new instance of the Book class
+        book = Book()
+        # Create book
+        book.create_book()
 
-      # Create new book (create method returns bool)
-      if book.create_book():
+      # Append instance of the book to the list of entities
+      self.entities.append(book)
 
-        # Append new book to the list of books
-        self.entities.append(book)
-
-      else:
-        # If failed to create a book, raise an exception
-        raise Exception
-
-    # Catch an exception and return False
-    except Exception:
+    except:
+      # Catch an exception and return False
       return False
 
-    # If program executed without problems, return True
     else:
+      # If program executed without problems, return True
       return True
 
 
-  def update_book_details(self) -> bool:
+  def update_book_details(self, details = list()) -> bool:
     """Public method to find a book by the title in the Library system. If the book exists, invoke a method to update user details."""
 
     try:
-      # Prompt the user to enter the book's title to find:
-      books = self.find("title", "title", "book")
+      if len(details.items()) > 0:
+        # Find book in the list of entities
+        books = self.find("title", details['title'], "book")
+      else:
+        # Prompt the user to enter the book's title to find:
+        books = self.find("title", "title", "book")
 
       # Check if the search returned moe than 1 result
       if len(books) > 1:
@@ -62,14 +62,22 @@ class BookList(EntityList):
         # Print a message that the program couldn't find the book
         print("\nBook not found!")
 
-      if the_book.update_book():
+        # Return False to stop the execution of the code below
+        return False
+
+      # If the book was found and update method returned True
+      if the_book.update_book(details):
+        # The execution of this method was successful, return True
         return True
 
       else:
+        # Coundn't update the user's details, return False
         return False
 
     except:
-      print("\nError occurred in BookList, update_user method.")
+      # Print a message that unexpected error occurred
+      print("\nError occurred in the update_book method.")
+      return False
 
 
   def remove_book(self) -> bool:
@@ -115,7 +123,7 @@ class BookList(EntityList):
       return False
 
 
-  def find_book(self) -> None:
+  def find_book(self, title:str = "") -> None:
     """Public method to find a book in the collection by it's title, author, publisher_name or publication_date."""
 
     # Define empty list to store all books that match the search_by criteria
@@ -125,17 +133,13 @@ class BookList(EntityList):
     searchable = ["title", "author", "publisher_name", "publication_date"]
 
     while True:
-      # Prompt the user to select the book attribute to look at
-      search_by = str(input("\nEnter search by: [title, author, publisher_name, publication_date]: "))
+      search_by = "title" if title != "" else str(input("\nEnter search by [title, author, publisher_name, publication_date"))
 
       # If user chosen one of the allowed search_by options
       if search_by in searchable:
+        keyword = title if title != "" else str(input(f"Find book by {search_by}: "))
 
-        # Prompt the user to enter the search keyword
-        keyword = str(input(f"Find book by {search_by}: "))
-
-        # Iterate through the list of books and append book that matches
-        # search criteria to the list of found books
+        # Iterate through the list of books and append book that matches search criteria to the list of found books
         for book in self.entities:
 
           # If the program should look at the book title, and the book title is equal to the user defined keyword
@@ -167,17 +171,22 @@ class BookList(EntityList):
           # Create a table of found books
           self.Table.create_table(found_books)
 
+          # Books found, return True
+          return True
+
         else:
           # Otherwise, show the message that search returned 0 results
           print(f"\nYour search for '{keyword}' in book {search_by} returned 0 results.")
 
-        # Break out of the while loop
-        break
+          # Books not found, return False
+          return False
 
       else:
         print("Selection out of range, please try again.")
 
 
-  def num_books(self) -> None:
+  def num_books(self) -> bool:
     """Public method to print the message to inform the program user about how many books exists in the collection."""
+
     print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.")
+    return True

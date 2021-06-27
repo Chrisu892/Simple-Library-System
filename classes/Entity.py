@@ -43,26 +43,35 @@ class Entity:
       return False
 
 
-  def create(self, entity_type:str = None) -> bool:
+  def create(self, entity_type:str = None, details = dict()) -> bool:
     """Method to create a new entity."""
 
     try:
-      self.__set__properties(entity_type)
+      if len(details.items()) > 0:
+        for detail in details.items():
+          self.set(detail[0], detail[1])
+      else:
+        self.__set__properties(entity_type)
+
 
     except:
       print(f"\nFailed to create a new {entity_type if entity_type != None else 'entity'}!")
       return False
 
     else:
-      print(f"\nA new {entity_type if entity_type != None else 'entity'} has been created!")
+      print(f"\nUser {self.get('username')} has been created!")
       return True
 
 
-  def update(self, entity_type:str = None) -> bool:
+  def update(self, entity_type:str = None, details = dict()) -> bool:
     """Method to update entity details."""
 
     try:
-      self.__set__properties(entity_type)
+      if len(details.items()) > 0:
+        for detail in details.items():
+          self.set(detail[0], detail[1])
+      else:
+        self.__set__properties(entity_type)
 
     except:
       # If errors occurred, return False

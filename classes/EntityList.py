@@ -6,7 +6,7 @@ class EntityList:
     self.entities = list()
 
 
-  def find(self, prop:str = "id", value = "id", label = None) -> list:
+  def find(self, prop:str = "id", value = None, label = None) -> list:
     """Public method to find the entity in the list of entities by their property name and return its property value or any other property value."""
 
     # Define a list to store any found entities
@@ -14,8 +14,11 @@ class EntityList:
 
     while True:
       try:
-        # Prompt the user to enter a keyword
-        keyword = str(input(f"Find {label if label != None else ''}'s {prop}: "))
+        if value == None:
+          # Prompt the user to enter a keyword
+          keyword = str(input(f"Find {label if label != None else ''}'s {prop}: "))
+        else:
+          keyword = value
 
         # Check if the keyword is not empty
         if keyword == "":

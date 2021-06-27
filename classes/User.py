@@ -23,14 +23,14 @@ class User(Entity):
     self.email_address:str = ""
 
 
-  def create_user(self) -> bool:
+  def create_user(self, details = dict()) -> bool:
     """Method to create a new user."""
-    return self.create("user")
+    return self.create("user", details)
 
 
-  def update_user(self) -> bool:
+  def update_user(self, details = dict()) -> bool:
     """Method to update existing user."""
-    return self.update("user")
+    return self.update("user", details)
 
 
   def get_full_name(self) -> str:

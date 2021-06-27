@@ -15,16 +15,26 @@ class UserList(EntityList):
     self.Table = TableGenerator()
 
 
-  def add_new_user(self) -> bool:
+  def add_new_user(self, user:object = None) -> bool:
     """Public method to create a new instance of the user. If the user has been successfully created, append new user to the list of entities."""
 
-    # Create new instance of the User
-    user = User()
+    try:
+      if user == None:
+        # Create new instance of the user
+        user = User()
+        # Create user details
+        user.create_user()
 
-    # Create new user
-    # @todo: Could add a check if the username is already taken by someone else
-    if user.create_user():
+      # Append instance of the user to the list of entities
       self.entities.append(user)
+
+    except:
+      # Error occurred
+      return False
+
+    else:
+      # Everything should be fine
+      return True
 
 
   def remove_existing_user(self) -> bool:
@@ -75,12 +85,15 @@ class UserList(EntityList):
       return False
 
 
-  def show_user_details(self) -> None:
+  def show_user_details(self, username = None) -> bool:
     """Method to find the Library user by their username and show their full information back to the administrator."""
 
     try:
-      # Prompt the administrator to type the username to find
-      users = self.find("username", "username", "user")
+      if username == None:
+        # Prompt the administrator to type the username to find
+        users = self.find("username", "username", "user")
+      else:
+        users = self.find("username", username, "user")
 
       # If the search returned any results
       if len(users) > 0:
@@ -98,14 +111,23 @@ class UserList(EntityList):
     except:
       # Print a message that unexpected error occurred
       print("\nError occurred in UserList, find_user method.")
+      return False
+
+    else:
+      # Everything seems OK. return True
+      return True
 
 
-  def update_user_details(self) -> None:
+  def update_user_details(self, details = dict()) -> None:
     """Public function to find a user by their username in the Library system. If the user exists, invoke a method to update user details."""
 
     try:
-      # Prompt the user to enter user's username to find
-      users = self.find("username", "username", "user")
+      if len(details.items()) > 0:
+        # Find user in the list of entities
+        users = self.find("username", details['username'], "user")
+      else:
+        # Prompt the user to enter user's username to find
+        users = self.find("username", "username", "user")
 
       # Check if search returned more than 1 result
       if (len(users) > 1):
@@ -125,7 +147,7 @@ class UserList(EntityList):
         return False
 
       # If the user was found and update method returned True
-      if the_user.update_user():
+      if the_user.update_user(details):
         # The execution of this method was successfull, return True
         return True
 
@@ -136,6 +158,7 @@ class UserList(EntityList):
     except:
       # Print a message that unexpected error occurred
       print("\nError occurred in the update_user method.")
+      return False
 
 
   def show_all_users(self) -> None:
@@ -149,7 +172,9 @@ class UserList(EntityList):
 
       # Show table of users
       self.Table.create_table(self.show_all())
+      return True
 
     else:
       # Print the message that the library system doesn't have any users
       print(f"\nThe library system have 0 users.")
+      return False

@@ -21,11 +21,11 @@ class Book(Entity):
     self.num_copies:int = 0
 
 
-  def create_book(self) -> bool:
+  def create_book(self, details = dict()) -> bool:
     """Method to create a new book."""
-    return self.create("book")
+    return self.create("book", details)
 
 
-  def update_book(self) -> bool:
+  def update_book(self, details = dict()) -> bool:
     """Method to update existing book."""
-    return self.update("book")
+    return self.update("book", details)
