@@ -6,14 +6,14 @@ class EntityList:
     self.entities = list()
 
 
-  def find(self, prop:str = "id", value = "id", label = None):
+  def find(self, prop:str = "id", value = "id", label = None) -> list:
     """Public method to find the entity in the list of entities by their property name and return its property value or any other property value."""
+
+    # Define a list to store any found entities
+    found_entities = list()
 
     while True:
       try:
-        # Define a list to store any found entities
-        found_entities = list()
-
         # Prompt the user to enter a keyword
         keyword = str(input(f"Find {label if label != None else ''}'s {prop}: "))
 
@@ -41,18 +41,10 @@ class EntityList:
       except:
         # Print a message that unexpected error occurred
         print("\nError occurred in EntityList, find method.")
-        # Return False
-        return False
 
       else:
-        # Check if the list of found_entities is not empty
-        if len(found_entities) > 0:
-          # Return the list
-          return found_entities
-
-        else:
-          # Return False
-          return False
+        # Return list of found entities, could be empty
+        return found_entities
 
 
   def remove(self, prop:str, value:str) -> bool:

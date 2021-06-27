@@ -104,11 +104,11 @@ class Entity:
         self.set(prop, resp)
 
         # Print a confirmation message
-        print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been updated!\n")
+        print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been set\n")
 
       else:
         # Print message that updating this property has been skipped
-        print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been skipped!\n")
+        print(f"{entity_type if entity_type != None else 'Entity'}'s {prop} has been skipped\n")
 
 
   def __random_id(self) -> str:

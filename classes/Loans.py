@@ -27,70 +27,84 @@ class Loans:
       return False
 
     try:
-      # Find users that match the provided username
-      users = user_list.find("username", "id", "user")
 
-      if len(users) > 1:
-        print("\nThere is more than 1 user with this username:\n")
+      while True:
+        # Find users that match provided username
+        users = user_list.find("username", "id", "user")
 
-        for idx, user in enumerate(users):
-          print(f"{idx+1}. {user.get('first_name')} {user.get('last_name')} ({user.get('username')})")
+        if len(users) > 1:
+          print("\nThere is more than 1 user with this username:\n")
 
-        while True:
-          selection = int(input("Please select [1,2,3...]: "))
+          # Iterate through the list of found users
+          for idx, user in enumerate(users):
+            print(f"{idx+1}. {user.get_full_name()} ({user.get('username')})")
 
-          if selection in range(1, len(users) + 1):
-            the_user = users[idx]
+            while True:
+              # Prompt the user to choose from the list of users
+              selection = int(input("Please select [1,2,3...]: "))
+
+              # Check if the selection is within the range
+              if selection in range(1, len(users) + 1):
+                # Set the_user
+                the_user = users[idx]
+                # Break the inner while loop
+                break
+
+            # Break the outer while loop
             break
 
-      elif len(users) == 1:
-        the_user = users[0]
+        elif len(users) == 1:
+          # Alternatively, set the_user to be the first object from the list of users
+          the_user = users[0]
+          # Break the outer while loop
+          break
 
-      else:
-        print("\nThis user does not exists, please try again.")
-        return False
+        # Otherwise, user doesn't exists
+        else:
+          print("\nThis user does not exists, please try again.")
 
-      books = book_list.find("title", "id", "book")
+      while True:
+        # Find books that match the provided title
+        books = book_list.find("title", "id", "book")
 
-      if len(books) > 1:
-        print("\nThere is more than 1 book with this title:\n")
-        
-        for idx, book in enumerate(books):
-          print(f"{idx+1}. {book.get('title')} (author: {book.get('author')})")
+        # Check if the number of books is greater than 1
+        if len(books) > 1:
+          print("\nThere is more than 1 book with this title:\n")
 
-        while True:
-          selection = int(input("Please select [1,2,3...]: "))
+          # Iterate through the list of books
+          for idx, book in enumerate(books):
+            # Print the user option
+            print(f"{idx+1}. {book.get('title')} (author: {book.get('author')})")
 
-          if selection in range(1, len(books) + 1):
-            the_book = books[idx]
-            break
+          while True:
+            # Prompt the user to choose from the list of books
+            selection = int(input("Please select [1,2,3...]: "))
+            # Check if the selection is within the range of books
+            if selection in range(1, len(books) + 1):
+              # Set the_book
+              the_book = books[idx]
+              # Break out of the inner while loop
+              break
 
-      elif len(books) == 1:
-        the_book = books[0]
+        elif len(books) == 1:
+          # Alternatively, set the_book to be the first object from the list of books
+          the_book = books[0]
+          # Break out of the outer while loop
+          break
 
-      else:
-        print("\nThis book does not exists, please try again.")
-        return False
+        # Otherwise, book doesn't exists
+        else:
+          print("\nThis book does not exists, please try again.")
 
-      num_copies = the_book.get('num_copies')
-
-      for loan in self.loans:
-        if loan['book'].get('id') == the_book.get('id'):
-
-          if int(num_copies) > 0:
-            num_copies = int(num_copies) - 1
-
-          else:
-            break
-
-      if int(num_copies) > 0:
+      if self.__check_availability(the_book):
+        # Add the_book to the list of loans
         self.loans.append({'user': the_user, 'book': the_book})
-
       else:
+        # Book is not available - insufficient number of copies
         raise Exception
 
     except Exception:
-      print(f"\nInsufficient number of copies left.")
+      print(f"Insufficient number of books available.")
       return False
 
     except:
@@ -221,7 +235,8 @@ class Loans:
           user_loans.append(loan)
 
       if len(user_loans) > 0:
-        print(f"{the_user.get_full_name()} has {len(user_loans)} active loan{'s' if len(user_loans) > 1 else ''}:\n")
+        print(f"\n{the_user.get_full_name()} has {len(user_loans)} active loan{'s' if len(user_loans) > 1 else ''}:\n")
+
         for loan in user_loans:
           print(f"{loan['book'].get('title')}")
 
@@ -239,3 +254,25 @@ class Loans:
   def count(self) -> int:
     """Return total number of loans."""
     return len(self.loans)
+
+
+  def __check_availability(self, book:object) -> bool:
+    # Get number of copies of the selected book
+    num_copies = book.get('num_copies')
+
+    # Iterate through the list of loans
+    for loan in self.loans:
+      # Check if the loaned book ID is equal to the_book ID
+      if loan['book'].get('id') == book.get('id'):
+
+        # Check of number of copies is greater than 0
+        if int(num_copies) > 0:
+          # Decrement number of available copies
+          num_copies = int(num_copies) - 1
+
+        # Otherwise, break out of the loop
+        else:
+          break
+
+    # Return True of False
+    return True if int(num_copies) > 0 else False

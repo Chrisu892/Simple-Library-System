@@ -53,7 +53,7 @@ class TableGenerator:
     if col4 != None:
       string += f" {col4}{' ' * (19 - len(str(col4)))}|"
 
-    string += self.create_table_border(2)
+    # string += "\n" + self.create_table_border(2)
 
     print(string)
 
