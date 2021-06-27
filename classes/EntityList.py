@@ -6,7 +6,7 @@ class EntityList:
     self.entities = list()
 
 
-  def find(self, prop:str = "id", value = None, label = None) -> list:
+  def find(self, prop:str = "id", label:str = None, value:str = None) -> list:
     """Public method to find the entity in the list of entities by their property name and return its property value or any other property value."""
 
     # Define a list to store any found entities

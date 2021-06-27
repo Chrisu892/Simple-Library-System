@@ -34,7 +34,5 @@ class User(Entity):
 
 
   def get_full_name(self) -> str:
-    if self.first_name and self.last_name:
-      return (self.first_name + ' ' + self.last_name)
-    else:
-      return "UNDEFINED"
+    """Method to return user's full name, if possible."""
+    return (self.first_name + ' ' + self.last_name) if self.first_name and self.last_name else "undefined"

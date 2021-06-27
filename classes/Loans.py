@@ -13,24 +13,23 @@ class Loans:
     self.Table = TableGenerator()
 
 
-  def lend_book(self, user_list:object, book_list:object) -> bool:
+  def lend_book(self, user_list:object = None, book_list:object = None, username:str = "", book_title:str = "") -> bool:
     """Method to lend a book to the user."""
 
     # Check if the list of users is empty
-    if user_list.count() == 0:
+    if user_list == None or user_list.count() == 0:
       print("\nThe Library does not have any users.")
       return False
 
     # Check if the list of books is empty
-    if book_list.count() == 0:
+    if book_list == None or book_list.count() == 0:
       print("\nThe Library's book collection is empty.")
       return False
 
     try:
-
       while True:
         # Find users that match provided username
-        users = user_list.find("username", "id", "user")
+        users = user_list.find("username", "user", username if username != "" else None)
 
         if len(users) > 1:
           print("\nThere is more than 1 user with this username:\n")
@@ -65,7 +64,7 @@ class Loans:
 
       while True:
         # Find books that match the provided title
-        books = book_list.find("title", "id", "book")
+        books = book_list.find("title", "book", book_title if book_title != "" else None)
 
         # Check if the number of books is greater than 1
         if len(books) > 1:
@@ -183,7 +182,7 @@ class Loans:
       return True
 
 
-  def show_all_loans(self) -> None:
+  def show_all_loans(self) -> bool:
     """Method to show all loaned books."""
 
     try:
@@ -198,9 +197,14 @@ class Loans:
 
       else:
         print("\nThere are 0 active loans in the Library.")
+        return False
 
     except:
       print("\nFailed to retrieve loaned books!")
+      return False
+
+    else:
+      return True
 
 
   def show_borrower_details(self, user_list:object) -> bool:

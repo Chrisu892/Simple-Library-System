@@ -59,7 +59,7 @@ class Entity:
       return False
 
     else:
-      print(f"\nUser {self.get('username')} has been created!")
+      print(f"{entity_type if entity_type != None else 'Entity'} has been created!")
       return True
 
 

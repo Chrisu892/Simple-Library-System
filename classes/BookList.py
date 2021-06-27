@@ -43,10 +43,10 @@ class BookList(EntityList):
     try:
       if len(details.items()) > 0:
         # Find book in the list of entities
-        books = self.find("title", details['title'], "book")
+        books = self.find("title", "book", details['title'],)
       else:
         # Prompt the user to enter the book's title to find:
-        books = self.find("title", "title", "book")
+        books = self.find("title", "book")
 
       # Check if the search returned moe than 1 result
       if len(books) > 1:
@@ -85,7 +85,7 @@ class BookList(EntityList):
 
     try:
       # Prompt the user to find a book by its title
-      books = self.find("title", "title", "book")
+      books = self.find("title", "book")
 
       if books == False:
         print("\nThis book doesn't exists!")
@@ -123,7 +123,7 @@ class BookList(EntityList):
       return False
 
 
-  def find_book(self, title:str = "") -> None:
+  def find_book(self, title:str = "") -> bool:
     """Public method to find a book in the collection by it's title, author, publisher_name or publication_date."""
 
     # Define empty list to store all books that match the search_by criteria
@@ -133,7 +133,7 @@ class BookList(EntityList):
     searchable = ["title", "author", "publisher_name", "publication_date"]
 
     while True:
-      search_by = "title" if title != "" else str(input("\nEnter search by [title, author, publisher_name, publication_date"))
+      search_by = "title" if title != "" else str(input("\nEnter search by [title, author, publisher_name, publication_date]: "))
 
       # If user chosen one of the allowed search_by options
       if search_by in searchable:
@@ -185,8 +185,8 @@ class BookList(EntityList):
         print("Selection out of range, please try again.")
 
 
-  def num_books(self) -> bool:
+  def num_books(self) -> int:
     """Public method to print the message to inform the program user about how many books exists in the collection."""
 
     print(f"\nThere {'are' if self.count() > 1 else 'is'} {self.count()} book{'s' if self.count() > 1 else ''} in the collection.")
-    return True
+    return self.count()

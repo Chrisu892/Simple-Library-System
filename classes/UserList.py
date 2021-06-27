@@ -42,7 +42,7 @@ class UserList(EntityList):
 
     try:
       # Prompt the administrator to enter the user's first name and try to find it
-      users = self.find("first_name", "first_name", "user")
+      users = self.find("first_name", "user")
 
       # If search returned more than 1 result
       if len(users) > 1:
@@ -64,15 +64,13 @@ class UserList(EntityList):
       # If removal of the user from the list of users was successful
       if self.remove("id", the_user.get('id')):
         # Print a message that the user has been deleted
-        print(f"User {the_user.get('first_name')} has been removed from the system.")
-
+        print(f"\nUser {the_user.get('first_name')} has been removed from the system.")
         # Success, return True
         return True
 
       else:
         # Print a message to notify administrator that user doesn't exists
         print(f"\nFailed to remove the user. User does not exists!")
-
         # Failure, return Falses
         return False
 
@@ -124,10 +122,10 @@ class UserList(EntityList):
     try:
       if len(details.items()) > 0:
         # Find user in the list of entities
-        users = self.find("username", details['username'], "user")
+        users = self.find("username", "user", details['username'])
       else:
         # Prompt the user to enter user's username to find
-        users = self.find("username", "username", "user")
+        users = self.find("username", "user")
 
       # Check if search returned more than 1 result
       if (len(users) > 1):
